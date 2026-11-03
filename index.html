@@ -138,6 +138,9 @@ h3{font-family:var(--f-disp);font-size:1.35rem;margin:10px 0 0}
 .lnk{font:inherit;font-size:.82rem;background:none;border:0;color:var(--accent);cursor:pointer;padding:2px 0}
 .mrow{display:flex;gap:8px} .mrow input{flex:1;min-width:0;font:inherit;font-size:.9rem;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
 #quiz .panel{position:relative}
+.credit{text-align:center;margin:24px 0 8px;display:flex;flex-direction:column;gap:6px}
+.credit .maker{font-size:1rem;font-weight:500;color:var(--muted);letter-spacing:.04em}
+.credit .cheer{font-size:.92rem;color:var(--muted);opacity:.7}
 .qstar{position:absolute;top:10px;right:10px;font-size:1.35rem;padding:6px}
 #qStem{padding-right:36px}
 .oex{display:block;font-size:.86rem;line-height:1.6;color:var(--muted);margin-top:4px}
@@ -148,7 +151,6 @@ h3{font-family:var(--f-disp);font-size:1.35rem;margin:10px 0 0}
   <section id="home" class="wrap" style="gap:16px">
     <div>
       <h1>물리치료사 국시 기출 문제은행</h1>
-      <p class="sub">2019년 제47회 ~ 2025년 제53회 · 1, 2교시 <span id="total"></span>문항 · 문제와 보기는 원문 그대로</p>
     </div>
     <div class="panel">
       <h2>회차</h2>
@@ -176,7 +178,11 @@ h3{font-family:var(--f-disp);font-size:1.35rem;margin:10px 0 0}
         <button class="btn ghost" id="wrongBtn">누적 오답 다시 풀기 (0)</button>
       </div>
     </div>
-    <p class="hint">정답은 2023~2025년은 국시원 최종답안, 2019~2022년은 가답안 기준입니다. 해설은 2025년 제53회부터 순서대로 넣고 있어요(Claude 작성, 공식 해설 아님). 해설이 아직 없는 문제는 Claude 앱·claude.ai에서 ‘해설 보기’를 누르면 바로 써 줘요(내 Claude 사용량 사용). 키보드: 1~5 선택, Enter 다음 문제.</p>
+    <p class="hint">정답은 2023~2025년은 국시원 최종답안, 2019~2022년은 가답안 기준입니다. 해설과 보기별 해설은 AI로 작성했으며 공식 해설이 아닙니다. 키보드: 1~5 선택, Enter 다음 문제로 넘어갈 수 있습니다.</p>
+    <footer class="credit">
+      <div class="maker">제작자 승웅굳</div>
+      <div class="cheer">늘 고마운 너에게, 국시 합격을 진심으로 응원해.</div>
+    </footer>
   </section>
 
   <section id="quiz" hidden class="wrap" style="gap:14px">
@@ -327,7 +333,6 @@ function chip(label, n, on, color, onclick){
 }
 function pool(){return D.map((q,i)=>i).filter(i=>selY.has(D[i][0])&&selS.has(D[i][3])&&selSub.has(D[i][11]))}
 function renderHome(){
-  $("total").textContent=D.length.toLocaleString();
   const yc=$("yearChips"); yc.textContent="";
   const allY = selY.size===Object.keys(YEARS).length;
   yc.append(chip("전체", D.length, allY, null, ()=>{ if(allY) selY.clear(); else Object.keys(YEARS).forEach(y=>selY.add(y)); }));
