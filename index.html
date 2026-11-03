@@ -449,11 +449,11 @@ function renderHome(){
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
 let S=null;
-function start(idxs, noLimit){
+function start(idxs, noLimit, mixO){
   if($("shufQ").checked) shuffle(idxs); else idxs.sort((a,b)=>a-b);
   const lim=noLimit?0:+$("limit").value; if(lim>0) idxs=idxs.slice(0,lim);
   if(!idxs.length) return;
-  S={list:idxs, i:0, answered:0, correct:0, wrongNow:[], done:false, shufO:$("shufO").checked};
+  S={list:idxs, i:0, answered:0, correct:0, wrongNow:[], done:false, shufO:mixO||$("shufO").checked};
   show("quiz"); renderQ();
 }
 function show(id){
@@ -581,7 +581,7 @@ function renderStats(){
   boxes.forEach((n,b)=>{
     if(n){const s=el("i"); s.style.flex=n+" 1 0"; s.style.background=BC[b]; L.append(s)}
     const bt=el("button"); bt.type="button"; bt.style.borderTopColor=BC[b]; bt.append(el("b",null,n.toLocaleString()),el("span",null,BL[b]));
-    bt.disabled=!n; bt.setAttribute("aria-label",`${BL[b]} ${n}문항 풀기`); bt.onclick=()=>start([...bIdx[b]]); G.append(bt);
+    bt.disabled=!n; bt.setAttribute("aria-label",`${BL[b]} ${n}문항 풀기`); bt.onclick=()=>start([...bIdx[b]],false,true); G.append(bt);
   });
   const acc=(box,groups)=>{box.textContent="";
     for(const [label,pred] of groups){
@@ -672,14 +672,14 @@ function renderNotes(){
     card.append(act); L.append(card);
   }
 }
-$("nPlay").onclick=()=>{const ids=noteList().map(k=>KEYIDX.get(k)); if(ids.length) start(ids,true)};
+$("nPlay").onclick=()=>{const ids=noteList().map(k=>KEYIDX.get(k)); if(ids.length) start(ids,true,true)};
 $("qStar").onclick=()=>{ if(!S) return; const r=rec(key(D[S.list[S.i]])); r.s=!r.s; saveST(); setStar($("qStar"),r.s); };
 for(const b of document.querySelectorAll(".tab")) b.onclick=()=>{
   const t=b.dataset.tab; if(t==="home"){show("home"); renderHome()} else if(t==="stats"){show("stats"); renderStats()} else {show("notes"); renderNotes()}
 };
 $("subAll").onclick=()=>{ const all=Object.values(SUBORDER).flat(); const on=all.every(x=>selSub.has(x)); all.forEach(x=>on?selSub.delete(x):selSub.add(x)); renderHome(); };
 $("startBtn").onclick=()=>start(pool());
-$("wrongBtn").onclick=()=>{ const ids=[...wrong].map(k=>KEYIDX.get(k)).filter(i=>i!==undefined); start(ids); };
+$("wrongBtn").onclick=()=>{ const ids=[...wrong].map(k=>KEYIDX.get(k)).filter(i=>i!==undefined); start(ids,false,true); };
 $("nextBtn").onclick=next;
 $("stopBtn").onclick=finish;
 const SHT={Y:"연도 선택",S:"과목 선택",Sub:"세부 과목 선택"}; let shLast=null;
@@ -689,7 +689,7 @@ document.querySelectorAll(".pill").forEach(b=>b.onclick=()=>openSheet(b.dataset.
 $("shDone").onclick=closeSheet; $("shade").onclick=closeSheet;
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("sheet").hidden){ e.stopPropagation(); closeSheet(); } },true);
 document.querySelectorAll("#limSeg button").forEach(b=>b.onclick=()=>{ document.querySelectorAll("#limSeg button").forEach(x=>x.classList.toggle("on",x===b)); $("limit").value=b.dataset.v; });
-$("retryBtn").onclick=()=>{ const l=[...S.wrongNow]; S=null; const lim=$("limit").value; $("limit").value="0"; start(l); $("limit").value=lim; };
+$("retryBtn").onclick=()=>{ const l=[...S.wrongNow]; S=null; const lim=$("limit").value; $("limit").value="0"; start(l,false,true); $("limit").value=lim; };
 $("homeBtn").onclick=()=>{show("home"); renderHome()};
 document.addEventListener("keydown",e=>{
   if($("quiz").hidden||e.altKey||e.ctrlKey||e.metaKey) return;
