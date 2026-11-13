@@ -9,53 +9,67 @@
   --bounce:linear(0 0%, .956 10.8%, 1.152 16%, .977 32.8%, 1 100%);
   --f-body:"Pretendard Variable", "Pretendard", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --f-num:"Geist", "Pretendard Variable", "Pretendard", -apple-system, "Malgun Gothic", sans-serif;
-  /* default = white */
-  --bg:#ffffff; --paper:#ffffff; --tile:#f4f4f4; --tile-2:#ececec; --ink:#1d1d1d; --muted:#666666; --meta:#6a6a6a;
-  --line:#e7e7e7; --line-strong:#dddddd;
-  --ok:#2f7a55; --ok-soft:#ecf5ef; --bad:#c2402f; --bad-soft:#fbeeec;
+  /* default = white (also what "system" uses in light mode) */
+  --bg:#FFFFFF; --paper:#FFFFFF; --tile:#F2F2F2; --tile-2:#E9E9E9; --ink:#1D1D1D; --muted:#6E6E6E; --meta:#696969; --on-band:#696969;
+  --line:#E8E8E8; --line-strong:#DBDBDB;
+  --ok:#2F7A55; --ok-soft:#EAF2EE; --bad:#C2402F; --bad-soft:#FAEEEC;
   --c-basic:#6b7c93; --c-eval:#8a7a9c; --c-interv:#5f8c74; --c-law:#a5844f;
-  --dock:rgba(240,240,240,.82);
+  --dock:rgba(242,242,242,.86); color-scheme:light;
   --accent:var(--ink); --accent-soft:var(--tile); --on-ink:var(--bg); --omr:var(--ink); --omr-soft:var(--tile);
   --grad-a:var(--line-strong); --grad-b:var(--ink);
 }
-/* black: shared by system dark (no theme chosen) and the "black" theme */
+/* system theme in dark mode = black */
 @media (prefers-color-scheme: dark){:root:not([data-theme]){
-  --bg:#0f0f0f; --paper:#0f0f0f; --tile:#1b1b1b; --tile-2:#242424; --ink:#f2f2f2; --muted:#a3a3a3; --meta:#929292;
-  --line:#262626; --line-strong:#333333;
-  --ok:#7cc59b; --ok-soft:#14231a; --bad:#f08a7a; --bad-soft:#2a1715;
+  --bg:#0F0D10; --paper:#0F0D10; --tile:#201E21; --tile-2:#2C2A2D; --ink:#F2F2F2; --muted:#A3A3A3; --meta:#A3A3A3; --on-band:#A3A3A3;
+  --line:#2C2A2D; --line-strong:#3D3B3D;
+  --ok:#7CC59B; --ok-soft:#293931; --bad:#F08A7A; --bad-soft:#452B29;
   --c-basic:#93a5bd; --c-eval:#ae9cc2; --c-interv:#8cbca0; --c-law:#d0ad74;
-  --dock:rgba(30,30,30,.8); color-scheme:dark}}
-:root[data-theme="black"]{
-  --bg:#0f0f0f; --paper:#0f0f0f; --tile:#1b1b1b; --tile-2:#242424; --ink:#f2f2f2; --muted:#a3a3a3; --meta:#929292;
-  --line:#262626; --line-strong:#333333;
-  --ok:#7cc59b; --ok-soft:#14231a; --bad:#f08a7a; --bad-soft:#2a1715;
-  --c-basic:#93a5bd; --c-eval:#ae9cc2; --c-interv:#8cbca0; --c-law:#d0ad74;
-  --dock:rgba(30,30,30,.8); color-scheme:dark}
-:root[data-theme="white"]{color-scheme:light}
+  --dock:rgba(32,30,33,.86); color-scheme:dark;
+}}
+/* Theme backgrounds follow the Millie's Library palette; text colors from the provided table.
+   Tiles/lines/dock/meta/answer bands are derived per background with every text pair >= 4.5:1. */
+:root[data-theme="white"]{
+  --bg:#FFFFFF; --paper:#FFFFFF; --tile:#F2F2F2; --tile-2:#E9E9E9; --ink:#1D1D1D; --muted:#6E6E6E; --meta:#696969; --on-band:#696969;
+  --line:#E8E8E8; --line-strong:#DBDBDB;
+  --ok:#2F7A55; --ok-soft:#EAF2EE; --bad:#C2402F; --bad-soft:#FAEEEC;
+  --c-basic:#6b7c93; --c-eval:#8a7a9c; --c-interv:#5f8c74; --c-law:#a5844f;
+  --dock:rgba(242,242,242,.86); color-scheme:light;
+}
 :root[data-theme="ivory"]{
-  --bg:#f5f2ea; --paper:#f5f2ea; --tile:#ebe6db; --tile-2:#e2dccf; --ink:#25231f; --muted:#5f5b52; --meta:#645f56;
-  --line:#e2dccf; --line-strong:#d5cebf;
-  --ok:#3a6e4c; --ok-soft:#e5ebdc; --bad:#b0442d; --bad-soft:#f4e2d9;
-  --c-basic:#6b7a8c; --c-eval:#857693; --c-interv:#5f846b; --c-law:#a07c45;
-  --dock:rgba(232,227,216,.85); color-scheme:light}
+  --bg:#FDFCE6; --paper:#FDFCE6; --tile:#F0EFDB; --tile-2:#E7E7D2; --ink:#1D1D1D; --muted:#6C6C6C; --meta:#676767; --on-band:#676767;
+  --line:#E6E5D1; --line-strong:#DAD9C6;
+  --ok:#2F7A55; --ok-soft:#EDF2DA; --bad:#C2402F; --bad-soft:#F9EFD9;
+  --c-basic:#6b7c93; --c-eval:#8a7a9c; --c-interv:#5f8c74; --c-law:#a5844f;
+  --dock:rgba(240,239,219,.86); color-scheme:light;
+}
 :root[data-theme="sage"]{
-  --bg:#e9f0dc; --paper:#e9f0dc; --tile:#dce6c8; --tile-2:#d0dcb9; --ink:#1d2418; --muted:#525d47; --meta:#56614b;
-  --line:#d6e0c2; --line-strong:#c7d3b0;
-  --ok:#2a6343; --ok-soft:#d2e4c4; --bad:#a8432f; --bad-soft:#f1dfd2;
-  --c-basic:#5f7389; --c-eval:#7d6f8c; --c-interv:#4f7d5c; --c-law:#94733c;
-  --dock:rgba(218,229,198,.85); color-scheme:light}
+  --bg:#F0F8D6; --paper:#F0F8D6; --tile:#E4ECCB; --tile-2:#DCE3C4; --ink:#1D1D1D; --muted:#686868; --meta:#636363; --on-band:#636363;
+  --line:#DAE2C3; --line-strong:#CED5B8;
+  --ok:#2F7A55; --ok-soft:#E8F3D1; --bad:#C2402F; --bad-soft:#EFF2D1;
+  --c-basic:#6b7c93; --c-eval:#8a7a9c; --c-interv:#5f8c74; --c-law:#a5844f;
+  --dock:rgba(228,236,203,.86); color-scheme:light;
+}
 :root[data-theme="forest"]{
-  --bg:#1d2721; --paper:#1d2721; --tile:#26312b; --tile-2:#2f3b34; --ink:#e4eae1; --muted:#a5b0a5; --meta:#9ca79c;
-  --line:#303b34; --line-strong:#3c4840;
-  --ok:#93cfa8; --ok-soft:#243d2e; --bad:#f0a28f; --bad-soft:#3b2a25;
-  --c-basic:#9fb0c4; --c-eval:#b5a6c7; --c-interv:#98c4a8; --c-law:#d4b47e;
-  --dock:rgba(38,49,43,.85); color-scheme:dark}
+  --bg:#013325; --paper:#013325; --tile:#134134; --tile-2:#1F4B3F; --ink:#F2F2F2; --muted:#A3A3A3; --meta:#B0B0B0; --on-band:#B5B5B5;
+  --line:#1F4B3F; --line-strong:#315A4E;
+  --ok:#7CC59B; --ok-soft:#1A503D; --bad:#F08A7A; --bad-soft:#274133;
+  --c-basic:#93a5bd; --c-eval:#ae9cc2; --c-interv:#8cbca0; --c-law:#d0ad74;
+  --dock:rgba(19,65,52,.86); color-scheme:dark;
+}
 :root[data-theme="grey"]{
-  --bg:#e8e8e6; --paper:#e8e8e6; --tile:#dcdcda; --tile-2:#d1d1ce; --ink:#1d1d1d; --muted:#555553; --meta:#585856;
-  --line:#d4d4d1; --line-strong:#c6c6c3;
-  --ok:#2b6c4c; --ok-soft:#d9e5dc; --bad:#ae3b2c; --bad-soft:#efdcd7;
-  --c-basic:#647589; --c-eval:#827392; --c-interv:#5a846d; --c-law:#9c7c46;
-  --dock:rgba(214,214,211,.85); color-scheme:light}
+  --bg:#4E4C4F; --paper:#4E4C4F; --tile:#424143; --tile-2:#3B393B; --ink:#F2F2F2; --muted:#C8C8C8; --meta:#C8C8C8; --on-band:#D3D3D3;
+  --line:#6A696B; --line-strong:#787779;
+  --ok:#A8E0BC; --ok-soft:#585C5B; --bad:#FFB3A6; --bad-soft:#575153;
+  --c-basic:#93a5bd; --c-eval:#ae9cc2; --c-interv:#8cbca0; --c-law:#d0ad74;
+  --dock:rgba(66,65,67,.86); color-scheme:dark;
+}
+:root[data-theme="black"]{
+  --bg:#0F0D10; --paper:#0F0D10; --tile:#201E21; --tile-2:#2C2A2D; --ink:#F2F2F2; --muted:#A3A3A3; --meta:#A3A3A3; --on-band:#A3A3A3;
+  --line:#2C2A2D; --line-strong:#3D3B3D;
+  --ok:#7CC59B; --ok-soft:#293931; --bad:#F08A7A; --bad-soft:#452B29;
+  --c-basic:#93a5bd; --c-eval:#ae9cc2; --c-interv:#8cbca0; --c-law:#d0ad74;
+  --dock:rgba(32,30,33,.86); color-scheme:dark;
+}
 /* theme switch: colours glide only while a switch is happening */
 :root.theme-anim, :root.theme-anim *, :root.theme-anim *::before, :root.theme-anim *::after{
   transition:background-color .55s var(--glide), color .55s var(--glide), border-color .55s var(--glide), box-shadow .55s var(--glide), fill .55s var(--glide), stroke .55s var(--glide)!important}
@@ -191,12 +205,15 @@ th{font-weight:500;color:var(--muted);border-bottom-color:var(--ink)}
 .opt:disabled{cursor:default;transition:background .18s ease-out,opacity .18s ease-out}
 .opt:disabled .bub{transition:background .18s ease-out,color .18s ease-out,border-color .18s ease-out}
 .opt.dim{opacity:.38}
-.opt.ok{background:var(--ok-soft);border-radius:8px;border-bottom-color:transparent;opacity:1}
+/* answer bands: tint + a 1.5px ring in the answer color (some backgrounds can't take a strong tint
+   without pushing the answer text under 4.5:1); secondary text inside bands uses --on-band */
+.opt.ok,.opt.bad,.fb{--muted:var(--on-band);--meta:var(--on-band)}
+.opt.ok{background:var(--ok-soft);border-radius:8px;border-bottom-color:transparent;opacity:1;box-shadow:inset 0 0 0 1.5px var(--ok)}
 .opt.ok .bub{background:var(--ok);border-color:var(--ok);color:var(--bg)}
-.opt.bad{background:var(--bad-soft);border-radius:8px;border-bottom-color:transparent;opacity:1}
+.opt.bad{background:var(--bad-soft);border-radius:8px;border-bottom-color:transparent;opacity:1;box-shadow:inset 0 0 0 1.5px var(--bad)}
 .opt.bad .bub{background:var(--bad);border-color:var(--bad);color:var(--bg)}
 .fb{border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:6px}
-.fb.ok{background:var(--ok-soft)} .fb.bad{background:var(--bad-soft)}
+.fb.ok{background:var(--ok-soft);box-shadow:inset 3px 0 0 var(--ok)} .fb.bad{background:var(--bad-soft);box-shadow:inset 3px 0 0 var(--bad)}
 .fb b{font-size:1.05rem;font-weight:500} .fb.ok b{color:var(--ok)} .fb.bad b{color:var(--bad)}
 .src{font-size:13px;line-height:1.5;color:var(--meta)}
 .exbtn{align-self:flex-start;font:inherit;font-size:.88rem;margin-top:8px;padding:8px 16px;min-height:38px;border-radius:9999px;border:0;background:var(--paper);color:var(--ink);cursor:pointer;transition:opacity .4s var(--spring)}
@@ -227,7 +244,7 @@ body{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
 .tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 @media (hover:hover){.tab:hover:not([aria-current="page"]){background:var(--tile-2);color:var(--ink)}}
 .tab[aria-current="page"]{background:var(--ink);color:var(--on-ink)}
-.badge{position:absolute;top:4px;left:calc(50% + 6px);background:var(--bad);color:#fff;font-family:var(--f-num);font-size:10px;min-width:17px;height:17px;border-radius:9999px;display:grid;place-items:center;padding:0 5px;font-variant-numeric:tabular-nums}
+.badge{position:absolute;top:4px;left:calc(50% + 6px);background:var(--bad);color:var(--bg);font-family:var(--f-num);font-size:10px;min-width:17px;height:17px;border-radius:9999px;display:grid;place-items:center;padding:0 5px;font-variant-numeric:tabular-nums}
 
 /* stats + notes */
 .ptitle{font-weight:400;font-size:clamp(2.1rem, 3vw + 1.2rem, 3.2rem);letter-spacing:-.035em;line-height:1.1;margin:0 0 12px}
@@ -296,7 +313,7 @@ h3{font-weight:400;font-size:1.3rem;letter-spacing:-.025em;line-height:1.3;margi
 .themebtn:active{transform:scale(.92)}
 .themebtn[aria-expanded="true"]{background:var(--ink);color:var(--on-ink)}
 .themebtn:focus-visible,.tsw:focus-visible,.tclose:focus-visible,.tauto:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.tshade{position:fixed;inset:0;background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);z-index:50;animation:fd .4s var(--spring)}
+.tshade{position:fixed;inset:0;background:rgba(0,0,0,.12);z-index:50;animation:fd .4s var(--spring)}
 .tsheet{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:51;max-width:480px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:16px;max-height:86vh;overflow-y:auto;padding:8px 16px 16px;animation:up .55s var(--glide)}
 .tshead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
 .tshead h3{margin:0;padding:0;border:0;font-size:1.15rem;font-weight:500;letter-spacing:-.02em}
@@ -317,16 +334,16 @@ h3{font-weight:400;font-size:1.3rem;letter-spacing:-.025em;line-height:1.3;margi
 .tlbl{display:flex;flex-direction:column;gap:4px}
 .tname{font-size:14px;line-height:1.2;font-weight:500}
 .tsub{font-size:13px;line-height:1.2;color:var(--sw-meta)}
-.tsw[data-t="white"]{--sw-bg:#ffffff;--sw-ink:#1d1d1d;--sw-meta:#6a6a6a;--sw-line:#dddddd}
-.tsw[data-t="ivory"]{--sw-bg:#f5f2ea;--sw-ink:#25231f;--sw-meta:#645f56;--sw-line:#d5cebf}
-.tsw[data-t="sage"]{--sw-bg:#e9f0dc;--sw-ink:#1d2418;--sw-meta:#56614b;--sw-line:#c7d3b0}
-.tsw[data-t="forest"]{--sw-bg:#1d2721;--sw-ink:#e4eae1;--sw-meta:#9ca79c;--sw-line:#3c4840}
-.tsw[data-t="grey"]{--sw-bg:#e8e8e6;--sw-ink:#1d1d1d;--sw-meta:#585856;--sw-line:#c6c6c3}
-.tsw[data-t="black"]{--sw-bg:#0f0f0f;--sw-ink:#f2f2f2;--sw-meta:#929292;--sw-line:#333333}
-.tauto{margin-top:20px;width:100%;min-height:48px;border:0;border-radius:9999px;background:var(--tile);color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .4s var(--spring),color .4s var(--spring)}
-.tauto::before{content:"";width:10px;height:10px;border-radius:50%;border:1px solid currentColor;box-sizing:border-box}
-.tauto[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
-.tauto[aria-pressed="true"]::before{background:currentColor}
+.tsw[data-t="white"]{--sw-bg:#FFFFFF;--sw-ink:#1D1D1D;--sw-meta:#696969;--sw-line:#DBDBDB}
+.tsw[data-t="ivory"]{--sw-bg:#FDFCE6;--sw-ink:#1D1D1D;--sw-meta:#676767;--sw-line:#DAD9C6}
+.tsw[data-t="sage"]{--sw-bg:#F0F8D6;--sw-ink:#1D1D1D;--sw-meta:#636363;--sw-line:#CED5B8}
+.tsw[data-t="forest"]{--sw-bg:#013325;--sw-ink:#F2F2F2;--sw-meta:#B0B0B0;--sw-line:#315A4E}
+.tsw[data-t="grey"]{--sw-bg:#4E4C4F;--sw-ink:#F2F2F2;--sw-meta:#C8C8C8;--sw-line:#787779}
+.tsw[data-t="black"]{--sw-bg:#0F0D10;--sw-ink:#F2F2F2;--sw-meta:#A3A3A3;--sw-line:#3D3B3D}
+/* 7th choice: follow the device (white in light mode, black in dark mode) */
+.tsw[data-t="auto"]{--sw-bg:var(--tile);--sw-ink:var(--ink);--sw-meta:var(--meta);--sw-line:var(--line-strong);grid-column:1 / -1;min-height:76px;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px}
+.tsw[data-t="auto"] .tprev{width:auto;flex-direction:row;gap:0}
+.tdual{display:block;width:40px;height:40px;border-radius:50%;background:linear-gradient(90deg,#FFFFFF 0 50%,#0F0D10 50% 100%);box-shadow:inset 0 0 0 1px var(--line-strong)}
 @media (hover:hover){.tauto[aria-pressed="false"]:hover{background:var(--tile-2)}}
 @media (max-width:360px){.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.tsheet,.tshade{animation:none}}
@@ -364,9 +381,102 @@ h3{font-weight:400;font-size:1.3rem;letter-spacing:-.025em;line-height:1.3;margi
   .scope{grid-template-columns:1fr}
   .tgls{grid-template-columns:1fr}
 }
+
+/* ===== reading-text settings (보기 설정 → 글자) =====
+   Only reading text scales: question, passage box, options, option explanations, feedback, wrong-answer list, notes.
+   Buttons, tags, dock and menus keep their sizes. With nothing saved every factor is 1, so the defaults equal the original styles. */
+:root{--rf:1;--rl:1;--rvf:1;--rv-d:16px;--rside-d:20px;--body-fs:clamp(16px, .6vw + 13px, 18px)}
+@media (max-width:480px){:root{--rv-d:14px;--rside-d:16px}}
+@media (min-width:1024px){:root{--rside-d:40px}}
+.stem{font-size:calc(clamp(1.35rem, 1.1vw + 1.05rem, 1.7rem) * var(--rf));line-height:calc(1.4 * var(--rl))}
+.box{font-size:calc(.96rem * var(--rf));line-height:calc(1.75 * var(--rl));padding-top:calc(16px * var(--rvf));padding-bottom:calc(16px * var(--rvf))}
+table{font-size:calc(.94rem * var(--rf))}
+.opt{font-size:calc(var(--body-fs) * var(--rf));line-height:calc(1.55 * var(--rl));padding-top:calc(var(--rv-d) * var(--rvf));padding-bottom:calc(var(--rv-d) * var(--rvf))}
+.oex{font-size:calc(.86rem * var(--rf));line-height:calc(1.6 * var(--rl))}
+.fb{padding-top:calc(18px * var(--rvf));padding-bottom:calc(18px * var(--rvf))}
+.fb b{font-size:calc(1.05rem * var(--rf))}
+.fb .src{font-size:calc(13px * var(--rf))}
+.ex{font-size:calc(.95rem * var(--rf));line-height:calc(1.75 * var(--rl))}
+#quiz .panel{gap:calc(24px * var(--rvf))!important}
+.wl li{font-size:calc(var(--body-fs) * var(--rf));line-height:calc(1.6 * var(--rl));padding-top:calc(18px * var(--rvf));padding-bottom:calc(18px * var(--rvf))}
+.wl .q{font-size:calc(1.05rem * var(--rf))}
+.wl .a{font-size:calc(.95rem * var(--rf))}
+.ncard{padding-top:calc(22px * var(--rvf));padding-bottom:calc(22px * var(--rvf))}
+.ncard .qt{font-size:calc(1.12rem * var(--rf));line-height:calc(1.5 * var(--rl))}
+.ncard .exp{font-size:calc(.92rem * var(--rf));line-height:calc(1.75 * var(--rl))}
+/* side margin: only while a reading screen (quiz, result, notes) is shown */
+body:has(#quiz:not([hidden])),body:has(#result:not([hidden])),body:has(#notes:not([hidden])){
+  padding-left:max(var(--rside,var(--rside-d)),env(safe-area-inset-left,0px));padding-right:max(var(--rside,var(--rside-d)),env(safe-area-inset-right,0px))}
+#quiz,#result,#notes{max-width:calc(760px + 2 * (var(--rside-d) - var(--rside,var(--rside-d))))}
+
+/* panel tabs + sliders */
+/* compact sheet so the question and options stay visible above it while adjusting */
+.tsheet .tshead{margin-bottom:12px;gap:10px}
+.tsheet .tshead h3{font-size:1rem;white-space:nowrap}
+.tseg{flex:1 1 auto;max-width:200px;margin-left:auto;padding:3px;gap:3px}
+.tseg button{min-height:36px;padding:6px 10px;font-size:.9rem}
+.tpane[hidden]{display:none!important}
+/* in-quiz "Aa" button, right of the progress counter */
+#quiz .qhead{justify-content:flex-start}
+#quiz #qProg{margin-left:auto}
+.qset{display:inline-grid;place-items:center;min-width:44px;height:36px;padding:0 12px;margin-left:12px;border:0;border-radius:10px;background:var(--tile);color:var(--ink);font:inherit;font-family:var(--f-num);font-size:14px;letter-spacing:-.02em;cursor:pointer;transition:background .4s var(--spring),color .4s var(--spring),transform .5s ease;transition:background .4s var(--spring),color .4s var(--spring),transform .5s var(--bounce)}
+@media (hover:hover){.qset:hover{background:var(--tile-2)}}
+.qset:active{transform:scale(.92)}
+.qset[aria-expanded="true"]{background:var(--ink);color:var(--on-ink)}
+.qset:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media (max-width:560px){   /* tag on its own line, then counter left / Aa right */
+  #quiz .qhead{row-gap:6px}
+  #quiz .qhead .tag{flex:1 1 100%}
+  #quiz #qProg{margin-left:0}
+  #quiz .qset{margin-left:auto}
+}
+.trow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;padding:10px 0 2px;border-top:1px solid var(--line)}
+.trow:first-child{border-top:0;padding-top:0}
+.trow label{font-size:14px;color:var(--ink)}
+.tval{font-family:var(--f-num);font-size:13px;line-height:1;color:var(--meta);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
+.trange{grid-column:1 / -1;display:grid;grid-template-columns:24px minmax(0,1fr) 24px;align-items:center;gap:10px}
+.ti{display:grid;place-items:center;color:var(--muted);line-height:1;user-select:none}
+.ti svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.ti-s{font-size:12px}.ti-l{font-size:20px}
+.tslider{position:relative;height:32px;--p:50%;--d:.5}
+.tslider input{-webkit-appearance:none;appearance:none;width:100%;height:32px;margin:0;background:transparent;cursor:pointer;display:block}
+.tslider input::-webkit-slider-runnable-track{height:2px;border-radius:9999px;background:linear-gradient(90deg,var(--ink) 0 var(--p),var(--line-strong) var(--p) 100%)}
+.tslider input::-moz-range-track{height:2px;border-radius:9999px;background:var(--line-strong)}
+.tslider input::-moz-range-progress{height:2px;border-radius:9999px;background:var(--ink)}
+.tslider input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-10px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--paper);transition:transform .5s ease;transition:transform .5s var(--bounce)}
+.tslider input::-moz-range-thumb{width:22px;height:22px;border:0;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--paper);transition:transform .5s var(--bounce)}
+.tslider input:active::-webkit-slider-thumb{transform:scale(1.15)}
+.tslider input:active::-moz-range-thumb{transform:scale(1.15)}
+.tslider input:focus-visible{outline:none}
+.tslider input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+.tslider input:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+/* default-value tick above the track (thumb centre travels from 11px to width-11px) */
+.ttick{position:absolute;top:3px;width:2px;height:7px;border-radius:1px;background:var(--meta);left:calc(11px + var(--d) * (100% - 22px) - 1px);pointer-events:none}
+.treset{margin-top:10px;width:100%;min-height:44px;border:0;border-radius:9999px;background:var(--tile);color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer;transition:background .4s var(--spring)}
+@media (hover:hover){.treset:hover{background:var(--tile-2)}}
+.treset:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.tslider input::-webkit-slider-thumb{transition:none}}
 </style>
 <script>/* view settings: apply the saved theme before anything paints */
 try{var __t=localStorage.getItem("ptq-view-theme");if(["white","ivory","sage","forest","grey","black"].indexOf(__t)>=0)document.documentElement.setAttribute("data-theme",__t)}catch(e){}
+/* reading-text settings: shared helpers + apply saved values before paint */
+window.__ptqText=(function(){
+  var KEY="ptq-view-text", R=document.documentElement;
+  function cssNum(n){return parseFloat(getComputedStyle(R).getPropertyValue(n))}
+  function defs(){return {fs:parseFloat(getComputedStyle(document.body).fontSize)||16, lh:1.6, pv:cssNum("--rv-d")||16, ph:cssNum("--rside-d")||16}}
+  // keep at least ~300px for text: on phones the side-margin maximum shrinks automatically
+  function maxSide(){return Math.max(12,Math.min(48,Math.floor((window.innerWidth-300)/2)))}
+  function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");return (o&&typeof o==="object")?o:null}catch(e){return null}}
+  function save(v){try{if(v&&Object.keys(v).length) localStorage.setItem(KEY,JSON.stringify(v)); else localStorage.removeItem(KEY)}catch(e){}}
+  function apply(v){var d=defs(), s=R.style;
+    if(!v||!Object.keys(v).length){["--rf","--rl","--rvf","--rside"].forEach(function(p){s.removeProperty(p)});return}
+    s.setProperty("--rf",String((v.fs||d.fs)/d.fs));
+    s.removeProperty("--rl");   // line spacing is no longer user-adjustable
+    s.setProperty("--rvf",String((v.pv||d.pv)/d.pv));
+    if(v.ph!=null) s.setProperty("--rside",Math.min(v.ph,maxSide())+"px"); else s.removeProperty("--rside");}
+  apply(load());
+  return {defs:defs,maxSide:maxSide,load:load,save:save,apply:apply};
+})();
 </script>
 
 <div class="wrap">
@@ -513,32 +623,42 @@ try{var __t=localStorage.getItem("ptq-view-theme");if(["white","ivory","sage","f
 <div class="tshade" id="themeShade" hidden></div>
 <div class="tsheet" id="themeSheet" role="dialog" aria-modal="true" aria-labelledby="themeTitle" hidden>
   <div class="grab"></div>
-  <div class="tshead"><h3 id="themeTitle">보기 설정</h3><button type="button" class="tclose" id="themeClose" aria-label="닫기">×</button></div>
+  <div class="tshead"><h3 id="themeTitle">보기 설정</h3><div class="seg tseg"><button type="button" id="tabText" aria-pressed="true" aria-controls="paneText">글자</button><button type="button" id="tabTheme" aria-pressed="false" aria-controls="paneTheme">배경</button></div><button type="button" class="tclose" id="themeClose" aria-label="닫기">×</button></div>
+  <div class="tpane" id="paneText">
+    <div class="trow"><label for="tFs">글자 크기</label><span class="tval" id="vFs"></span>
+      <div class="trange"><span class="ti ti-s" aria-hidden="true">가</span><div class="tslider"><span class="ttick" aria-hidden="true"></span><input type="range" id="tFs" data-k="fs" min="14" max="24" step="0.5"></div><span class="ti ti-l" aria-hidden="true">가</span></div></div>
+    <div class="trow"><label for="tPv">상하 여백</label><span class="tval" id="vPv"></span>
+      <div class="trange"><span class="ti" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 2h14M3 18h14M6 5h8v10H6z"/></svg></span><div class="tslider"><span class="ttick" aria-hidden="true"></span><input type="range" id="tPv" data-k="pv" min="8" max="32" step="1"></div><span class="ti" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 2h14M3 18h14M6 8h8v4H6z"/></svg></span></div></div>
+    <div class="trow"><label for="tPh">좌우 여백</label><span class="tval" id="vPh"></span>
+      <div class="trange"><span class="ti" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M2 3v14M18 3v14M5 6h10v8H5z"/></svg></span><div class="tslider"><span class="ttick" aria-hidden="true"></span><input type="range" id="tPh" data-k="ph" min="12" max="48" step="1"></div><span class="ti" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M2 3v14M18 3v14M8 6h4v8H8z"/></svg></span></div></div>
+    <button type="button" class="treset" id="textReset">기본값으로</button>
+  </div>
+  <div class="tpane" id="paneTheme" hidden>
   <p class="tlabel" id="themeGroupLbl">배경 테마</p>
   <div class="tgrid" role="radiogroup" aria-labelledby="themeGroupLbl">
     <button type="button" role="radio" aria-checked="false" class="tsw" data-t="white"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">흰색</span><span class="tsub">기본</span></span></button>
     <button type="button" role="radio" aria-checked="false" class="tsw" data-t="ivory"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">아이보리</span><span class="tsub">종이</span></span></button>
     <button type="button" role="radio" aria-checked="false" class="tsw" data-t="sage"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">연두</span><span class="tsub">세이지</span></span></button>
     <button type="button" role="radio" aria-checked="false" class="tsw" data-t="forest"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">초록</span><span class="tsub">포레스트</span></span></button>
-    <button type="button" role="radio" aria-checked="false" class="tsw" data-t="grey"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">회색</span><span class="tsub">콘크리트</span></span></button>
+    <button type="button" role="radio" aria-checked="false" class="tsw" data-t="grey"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">회색</span><span class="tsub">차콜</span></span></button>
     <button type="button" role="radio" aria-checked="false" class="tsw" data-t="black"><span class="tprev" aria-hidden="true"><span class="tglyph">가 Aa</span><i></i></span><span class="tlbl"><span class="tname">검정</span><span class="tsub">다크</span></span></button>
+    <button type="button" role="radio" aria-checked="false" class="tsw" data-t="auto"><span class="tprev" aria-hidden="true"><span class="tdual"></span></span><span class="tlbl"><span class="tname">시스템 테마</span><span class="tsub">기기 설정에 맞춰 흰색·검정</span></span></button>
   </div>
-  <button type="button" class="tauto" id="themeAuto" aria-pressed="false">기기 설정 따르기</button>
+  </div>
 </div>
 <script>/* view settings: theme picker (independent of the quiz script) */
 (function(){
   var KEY="ptq-view-theme", THEMES=["white","ivory","sage","forest","grey","black"];
   var root=document.documentElement, g=function(id){return document.getElementById(id)};
-  var btn=g("themeBtn"), sheet=g("themeSheet"), shade=g("themeShade"), closeB=g("themeClose"), autoB=g("themeAuto");
+  var btn=g("themeBtn"), sheet=g("themeSheet"), shade=g("themeShade"), closeB=g("themeClose");
   var sws=[].slice.call(sheet.querySelectorAll(".tsw")), timer=null;
   var mqDark=window.matchMedia?matchMedia("(prefers-color-scheme: dark)"):null;
   var mqReduce=window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)"):null;
   function chosen(){var v=root.getAttribute("data-theme");return THEMES.indexOf(v)>=0?v:null}
   function effective(){return chosen()||(mqDark&&mqDark.matches?"black":"white")}
   function sync(){
-    var c=chosen(), eff=effective();
-    sws.forEach(function(b){var on=b.dataset.t===c; b.setAttribute("aria-checked",on?"true":"false"); b.tabIndex=(b.dataset.t===eff)?0:-1});
-    autoB.setAttribute("aria-pressed",c?"false":"true");
+    var c=chosen()||"auto"; // no saved theme = the 7th "system" choice
+    sws.forEach(function(b){var on=b.dataset.t===c; b.setAttribute("aria-checked",on?"true":"false"); b.tabIndex=on?0:-1});
   }
   function apply(t){
     if(!(mqReduce&&mqReduce.matches)){root.classList.add("theme-anim"); clearTimeout(timer); timer=setTimeout(function(){root.classList.remove("theme-anim")},650)}
@@ -546,18 +666,23 @@ try{var __t=localStorage.getItem("ptq-view-theme");if(["white","ivory","sage","f
     try{ if(t) localStorage.setItem(KEY,t); else localStorage.removeItem(KEY) }catch(e){}
     sync();
   }
+  // the sheet can be opened from the dock button or the in-quiz button (the dock is hidden during a quiz)
+  var opener=null;
+  function expanded(v){ [].forEach.call(document.querySelectorAll('[aria-controls="themeSheet"]'),function(b){ b.setAttribute("aria-expanded",v) }) }
   function open(){
-    sync(); sheet.hidden=false; shade.hidden=false; btn.setAttribute("aria-expanded","true");
-    var cur=sheet.querySelector('.tsw[tabindex="0"]')||sws[0]; cur.focus();
+    opener=(document.activeElement&&document.activeElement.getAttribute("aria-controls")==="themeSheet")?document.activeElement:btn;
+    sync(); sheet.hidden=false; shade.hidden=false; expanded("true");
+    var cur=g("paneTheme").hidden ? sheet.querySelector("#paneText input") : (sheet.querySelector('.tsw[tabindex="0"]')||sws[0]); cur.focus();
   }
   function close(){
-    sheet.hidden=true; shade.hidden=true; btn.setAttribute("aria-expanded","false"); btn.focus();
+    sheet.hidden=true; shade.hidden=true; expanded("false");
+    var back=(opener&&opener.offsetParent!==null)?opener:btn; back.focus();
   }
   btn.addEventListener("click",function(){ sheet.hidden?open():close() });
   closeB.addEventListener("click",close);
   shade.addEventListener("click",close);
-  autoB.addEventListener("click",function(){ apply(null) });
-  sws.forEach(function(b){ b.addEventListener("click",function(){ apply(b.dataset.t) }) });
+  var pick=function(t){ apply(THEMES.indexOf(t)>=0?t:null) };
+  sws.forEach(function(b){ b.addEventListener("click",function(){ pick(b.dataset.t) }) });
   // while the sheet is open, keys stay here (the quiz uses 1-5 / Enter / Space)
   document.addEventListener("keydown",function(e){
     if(sheet.hidden) return;
@@ -567,16 +692,86 @@ try{var __t=localStorage.getItem("ptq-view-theme");if(["white","ivory","sage","f
     if(i>=0 && /^Arrow(Right|Down|Left|Up)$/.test(e.key)){
       e.preventDefault();
       var cols=window.innerWidth<=360?2:3, step={ArrowRight:1,ArrowLeft:-1,ArrowDown:cols,ArrowUp:-cols}[e.key];
-      var n=sws[(i+step+sws.length)%sws.length]; apply(n.dataset.t); n.focus(); return;
+      // 6 swatches in a grid + the full-width system tile last: up/down move by row, the system tile is its own row
+      var last=sws.length-1, j;
+      if(e.key==="ArrowDown"){ j=i+cols; if(j>last) j=(i===last)?0:last; }
+      else if(e.key==="ArrowUp"){ j=(i===last)?last-cols:i-cols; if(j<0) j=last; }
+      else { j=(i+step+sws.length)%sws.length; }
+      var n=sws[j]; pick(n.dataset.t); n.focus(); return;
     }
     if(e.key==="Tab"){
-      var f=[].slice.call(sheet.querySelectorAll('button:not([tabindex="-1"])')), first=f[0], last=f[f.length-1];
+      var f=[].slice.call(sheet.querySelectorAll('button:not([tabindex="-1"]),input')).filter(function(x){return x.offsetParent!==null}), first=f[0], last=f[f.length-1];
       if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
       else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
     }
   },true);
   if(mqDark){ var onChange=function(){ sync() }; if(mqDark.addEventListener) mqDark.addEventListener("change",onChange); else if(mqDark.addListener) mqDark.addListener(onChange); }
   sync();
+})();
+</script>
+<script>/* view settings: 글자/배경 tabs + reading-text sliders (independent of the quiz script) */
+(function(){
+  var T=window.__ptqText; if(!T) return;
+  var g=function(id){return document.getElementById(id)};
+  var tabText=g("tabText"), tabTheme=g("tabTheme"), paneText=g("paneText"), paneTheme=g("paneTheme");
+  function showPane(text){
+    paneText.hidden=!text; paneTheme.hidden=text;
+    tabText.setAttribute("aria-pressed",text?"true":"false"); tabTheme.setAttribute("aria-pressed",text?"false":"true");
+  }
+  tabText.addEventListener("click",function(){ showPane(true) });
+  tabTheme.addEventListener("click",function(){ showPane(false) });
+
+  // in-quiz entry point: the dock (with its Aa button) is hidden while a question is open
+  var qh=document.querySelector("#quiz .qhead");
+  if(qh){
+    var qb=document.createElement("button");
+    qb.type="button"; qb.className="qset"; qb.id="qSet";
+    qb.setAttribute("aria-label","보기 설정"); qb.setAttribute("aria-haspopup","dialog");
+    qb.setAttribute("aria-controls","themeSheet"); qb.setAttribute("aria-expanded","false");
+    qb.innerHTML='<span aria-hidden="true">Aa</span>';
+    qh.appendChild(qb);
+    qb.addEventListener("click",function(){ qb.focus(); g("themeBtn").click() });
+    // Enter/Space on this button opens the panel only; it must not reach the quiz's "next question" key handler
+    qb.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" ") e.stopPropagation() });
+  }
+
+  var KEYS=["fs","pv","ph"];
+  var inputs={fs:g("tFs"),pv:g("tPv"),ph:g("tPh")}, outs={fs:g("vFs"),pv:g("vPv"),ph:g("vPh")};
+  var cur=T.load()||{};          // only values the user has set
+  if("lh" in cur){ delete cur.lh; T.save(cur); }   // drop a line-spacing value saved by the earlier version
+  function def(k){ var d=T.defs()[k]; return k==="ph"?Math.min(d,T.maxSide()):d }
+  function val(k){ var v=(cur[k]!=null)?cur[k]:def(k); return k==="ph"?Math.min(v,T.maxSide()):v }
+  function fmt(k,v){ return k==="lh" ? String(Math.round(v*100)/100) : (Math.round(v*2)/2)+"px" }
+  function paint(k){
+    var inp=inputs[k], box=inp.parentNode;
+    if(k==="ph") inp.max=String(T.maxSide());
+    var min=+inp.min, max=+inp.max, v=val(k), p=(v-min)/(max-min), d=Math.min(1,Math.max(0,(def(k)-min)/(max-min)));
+    inp.value=String(v);
+    box.style.setProperty("--p","calc(11px + "+p.toFixed(4)+" * (100% - 22px))");   // filled part ends at the thumb centre
+    box.style.setProperty("--d",d.toFixed(4));                                       // default-value tick
+    outs[k].textContent=fmt(k,v); inp.setAttribute("aria-valuetext",fmt(k,v));
+  }
+  function paintAll(){ KEYS.forEach(paint) }
+  var raf=0, saveTimer=0;
+  function commit(){                     // at most one style update per frame; a short timer covers pages that get no frames
+    if(raf) return; raf=1;
+    var done=function(){ if(!raf) return; raf=0; T.apply(cur) };
+    requestAnimationFrame(done); setTimeout(done,60);
+  }
+  KEYS.forEach(function(k){
+    var inp=inputs[k];
+    inp.addEventListener("input",function(){
+      var v=+inp.value, d=def(k), range=(+inp.max)-(+inp.min);
+      if(Math.abs(v-d)<=range*0.04) v=d;          // gentle snap near the default
+      cur[k]=v; paint(k); commit();
+      clearTimeout(saveTimer); saveTimer=setTimeout(function(){ T.save(cur) },250);
+    });
+    inp.addEventListener("change",function(){ clearTimeout(saveTimer); T.save(cur) });
+  });
+  g("textReset").addEventListener("click",function(){ cur={}; T.save(null); T.apply(null); paintAll() });
+  g("themeBtn").addEventListener("click",paintAll);
+  var rt=0; window.addEventListener("resize",function(){ clearTimeout(rt); rt=setTimeout(function(){ paintAll(); T.apply(cur) },100) });
+  paintAll();
 })();
 </script>
 
