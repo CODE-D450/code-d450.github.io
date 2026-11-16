@@ -131,6 +131,60 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 /* bento scope tiles */
 .scope{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .scope .pill:last-child{grid-column:1 / -1}
+.kw{display:flex;flex-direction:column;gap:8px}
+.themebtn.kwtab[aria-expanded="true"]{background:var(--paper);color:var(--ink)}
+.kwtab{position:relative}
+.kwtab.on::after{content:"";position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--ink)}
+.kwsheet .kw{gap:12px}
+.kwhb{display:flex;gap:8px}
+.selbtn{position:fixed;z-index:60;display:inline-flex;align-items:center;gap:6px;max-width:calc(100vw - 16px);padding:8px 14px;min-height:40px;border:1px solid var(--line);border-radius:9999px;background:var(--paper);color:var(--ink);font:inherit;font-size:.9rem;box-shadow:0 6px 20px rgba(0,0,0,.14);cursor:pointer;animation:fd .2s ease-out}
+.selbtn[hidden]{display:none}
+.selbtn #selWord{font-weight:600;max-width:12em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.selbtn .selk{color:var(--meta)}
+.selbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#quiz .opt,#quiz .opt *,#kwQ .opt,#kwQ .opt *{-webkit-user-select:text;user-select:text}
+.kwsheet.big{top:calc(8px + env(safe-area-inset-top,0px));max-height:none;max-width:760px}
+.kwsheet.big .stem{font-size:calc(1.35rem * var(--rf,1))}
+.kwq{display:flex;flex-direction:column;gap:14px;padding-top:14px;border-top:1px solid var(--line)}
+.kwq[hidden],#kwStartRow[hidden]{display:none}
+.kwqh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kwpos{font-family:var(--f-num);font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums;white-space:nowrap}
+.kwsheet .stem{font-size:calc(1.15rem * var(--rf,1))}
+.kwnav{justify-content:flex-end}
+.kwsug{display:flex;flex-direction:column;gap:8px}
+.kwdone{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:8px;background:var(--tile)}
+.kwdone[hidden]{display:none}
+.kwdone-t{margin:0;font-size:.95rem;line-height:1.55}
+.kwdone .tg{background:var(--paper)}
+.kwg{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.92rem;line-height:1.5}
+.kwsec{margin:6px 0 0;font-size:13px;color:var(--meta)}
+.kwrec{font:inherit;text-align:left;border:0;border-radius:8px;background:var(--paper);color:var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:background .2s ease-out}
+@media (hover:hover){.kwrec:hover{background:var(--tile-2)}}
+.kwrec:active{transform:scale(.98)}
+.kwrec:focus-visible,.kwlink:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.kwrec-t{display:flex;align-items:baseline;gap:8px;font-weight:500}
+.kwrec-t .n{color:var(--meta);font-family:var(--f-num);font-size:12px;font-weight:400}
+.kwrec-w{font-size:13px;color:var(--muted);line-height:1.45}
+.kwlink{font:inherit;font-size:13px;color:var(--meta);background:none;border:0;padding:4px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:flex-start}
+.kwdone .actions > .btn{flex:1 1 100%}
+.kwdone .btn.ghost{background:var(--paper)}
+.kwdone-t.kwh{font-weight:600;font-size:1.05rem}
+.kwg-empty{margin:0;font-size:.92rem;color:var(--muted)}
+.qkw + .qset{margin-left:8px}
+.qset.qkw[aria-expanded="true"]{background:var(--tile);color:var(--ink)}
+.kwsheet .actions > .btn{flex:1 1 100%}
+.kw[hidden]{display:none}
+.kwrow{display:flex;gap:8px}
+.kwrow .kwin{flex:1 1 auto;min-width:0}
+.kwbtn{flex:0 0 auto;width:52px;height:52px;display:grid;place-items:center;border:0;border-radius:8px;background:var(--tile);color:var(--ink);cursor:pointer;transition:background .2s ease-out}
+@media (hover:hover){.kwbtn:hover{background:var(--tile-2)}}
+.kwbtn:active{transform:scale(.94)}
+.kwbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.kwin{font:inherit;font-size:16px;width:100%;min-height:52px;padding:0 16px;border:0;border-radius:8px;background:var(--tile);color:var(--ink);-webkit-appearance:none;appearance:none}
+.kwin::placeholder{color:var(--meta);opacity:1}
+.kwin:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.kwex{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-size:13px;color:var(--meta);cursor:pointer;user-select:none;padding:4px 2px}
+.kwex input{width:14px;height:14px;margin:0;accent-color:var(--ink)}
 .pill{font:inherit;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:20px;padding:16px;min-height:104px;border:0;border-radius:8px;background:var(--tile);color:var(--ink);cursor:pointer;text-align:left;position:relative;min-width:0;transition:background .4s var(--spring)}
 @media (hover:hover){.pill:hover{background:var(--tile-2)}.pill:hover::after{transform:translate(2px,-2px) rotate(-45deg)}}
 .pill::after{content:"";position:absolute;right:18px;top:20px;width:7px;height:7px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:rotate(-45deg);transition:transform .4s var(--spring)}
@@ -437,6 +491,7 @@ body:has(#quiz:not([hidden])),body:has(#result:not([hidden])),body:has(#notes:no
   #quiz .qhead .tag{flex:1 1 100%}
   #quiz #qProg{margin-left:0}
   #quiz .qset{margin-left:auto}
+  #quiz .qkw + .qset{margin-left:8px}
 }
 .trow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;padding:10px 0 2px;border-top:1px solid var(--line)}
 .trow:first-child{border-top:0;padding-top:0}
@@ -626,9 +681,40 @@ window.__ptqText=(function(){
   <button type="button" class="tab" data-tab="home"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5v-6h-6v6H4z"/></svg>홈</button>
   <button type="button" class="tab" data-tab="stats"><svg viewBox="0 0 24 24"><path d="M6 20v-7M12 20V5M18 20v-10"/></svg>학습 통계</button>
   <button type="button" class="tab" data-tab="notes"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h3"/></svg>오답 노트<span class="badge" id="nBadge" hidden></span></button>
+  <button type="button" class="themebtn kwtab" id="kwBtn" aria-label="키워드 검색" title="키워드 검색" aria-expanded="false" aria-controls="kwSheet"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></button>
   <button type="button" class="themebtn" id="themeBtn" aria-haspopup="dialog" aria-controls="themeSheet" aria-expanded="false" aria-label="보기 설정"><span aria-hidden="true">Aa</span></button>
 </div></nav>
 
+<button type="button" class="selbtn" id="selSearch" hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><span id="selWord"></span><span class="selk">검색</span></button>
+<div class="tshade" id="kwShade" hidden></div>
+<div class="tsheet kwsheet" id="kwSheet" role="dialog" aria-modal="true" aria-labelledby="kwTitle" hidden>
+  <div class="grab"></div>
+  <div class="tshead"><h3 id="kwTitle">키워드 검색</h3><div class="kwhb"><button type="button" class="tclose" id="kwBig" aria-label="크게 보기" title="크게 보기" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button><button type="button" class="tclose" id="kwClose" aria-label="닫기">×</button></div></div>
+  <div class="kw">
+    <div class="kwrow">
+          <input type="search" id="kwIn" class="kwin" placeholder="문제·보기·해설에서 찾기  예: 돌림근띠" autocomplete="off" enterkeyhint="search" aria-label="키워드로 문제 찾기">
+          <button type="button" class="kwbtn" id="kwGoBtn" aria-label="검색" title="검색"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></button>
+        </div>
+    <div class="count" id="kwCount"></div>
+    <div class="kwq" id="kwQ" hidden>
+      <div class="kwqh"><span class="tag" id="kwTag"></span><span class="kwpos" id="kwPos"></span></div>
+      <p class="stem" id="kwStem"></p>
+      <div class="box" id="kwQBox" hidden></div>
+      <div class="tblw" id="kwTbl" hidden></div>
+      <div class="opts" id="kwOpts"></div>
+      <div id="kwFb" hidden></div>
+      <div class="actions kwnav">
+        <button type="button" class="btn ghost nav" id="kwPrev" aria-label="이전 검색 문제" title="이전 검색 문제"><span aria-hidden="true">←</span></button>
+        <button type="button" class="btn ghost nav" id="kwNext" aria-label="다음 검색 문제" title="다음 검색 문제"><span aria-hidden="true">→</span></button>
+      </div>
+      <div class="kwdone" id="kwDone" hidden>
+        <p class="kwdone-t" id="kwDoneT"></p>
+        <div class="kwsug" id="kwSug"></div>
+      </div>
+    </div>
+    <div class="actions" id="kwStartRow"><button class="btn" id="kwStart">검색한 문제로 새로 풀기</button></div>
+  </div>
+</div>
 <div class="tshade" id="themeShade" hidden></div>
 <div class="tsheet" id="themeSheet" role="dialog" aria-modal="true" aria-labelledby="themeTitle" hidden>
   <div class="grab"></div>
@@ -854,7 +940,17 @@ function chip(label, n, on, color, onclick){
   const s=document.createElement("span"); s.className="n"; s.textContent=n; b.append(s);
   b.onclick=()=>{onclick(); renderHome()}; return b;
 }
-function pool(){return D.map((q,i)=>i).filter(i=>selY.has(D[i][0])&&selS.has(D[i][3])&&selSub.has(D[i][11]))}
+/* 키워드 검색: 띄어쓰기·가운뎃점 차이는 무시하고, 여러 단어는 모두 들어간 문제만 찾는다 */
+const kwNorm=t=>String(t||"").toLowerCase().replace(/[\s·∙•・]+/g,"");
+let KWQ=null, KWE=null;
+function kwTerms(){ return ($("kwIn").value||"").split(/[,\s]+/).map(kwNorm).filter(Boolean); }
+function kwHit(i,terms){
+  if(!KWQ){ KWQ=D.map(q=>kwNorm([q[4],...(q[5]||[]),...((q[6]||[]).flat()),...(q[7]||[])].join(" "))); KWE=D.map(q=>kwNorm([q[9],...(q[10]||[])].join(" "))); }
+  const t=KWQ[i]+"|"+KWE[i];   // 문제·보기·표·해설·보기별 해설 어디에 나와도 찾는다
+  return terms.every(k=>t.includes(k));
+}
+/* 키워드가 있으면 연도·과목 선택과 상관없이 전체 문제에서 찾는다 */
+function pool(){const terms=kwTerms(); if(terms.length) return D.map((q,i)=>i).filter(i=>kwHit(i,terms)); return D.map((q,i)=>i).filter(i=>selY.has(D[i][0])&&selS.has(D[i][3])&&selSub.has(D[i][11]))}
 function renderHome(){
   const yc=$("yearChips"); yc.textContent="";
   const allY = selY.size===Object.keys(YEARS).length;
@@ -889,7 +985,7 @@ function renderHome(){
   const allSub=Object.values(SUBORDER).flat().every(x=>selSub.has(x));
   $("subAll").textContent = allSub? "전체 해제":"전체 선택";
   const p=pool().length;
-  $("selCount").textContent = `선택된 문항 ${p.toLocaleString()}개`;
+  { const kt=($("kwIn").value||"").trim(); $("selCount").textContent = kt ? `전체 연도·과목에서 "${kt}" 포함 ${p.toLocaleString()}문제` : `선택된 문항 ${p.toLocaleString()}개`; }
   $("shCount").textContent = `선택된 문항 ${p.toLocaleString()}개`;
   $("startBtn").disabled = p===0;
   $("wrongBtn").textContent = `누적 오답 다시 풀기 (${wrong.size})`;
@@ -1139,6 +1235,179 @@ for(const b of document.querySelectorAll(".tab")) b.onclick=()=>{
 };
 $("subAll").onclick=()=>{ const all=Object.values(SUBORDER).flat(); const on=all.every(x=>selSub.has(x)); all.forEach(x=>on?selSub.delete(x):selSub.add(x)); renderHome(); };
 $("startBtn").onclick=()=>start(pool());
+{ let kt=0, kwFrom=null;
+  /* 작은 창 안에서 바로 푸는 미니 문제 (메인 퀴즈 진행 상태 S는 건드리지 않는다)
+     흐름: 검색 문제 풀기(solve) → 틀린 문제 복습(review) → 학습 가이드와 다음 키워드 추천(guide) */
+  const K={sig:"", phase:"solve", s:{list:[],i:0,ans:new Map(),time:new Map()}, r:null, t0:0, sug:null};
+  const A=i=>D[i][8]-1;
+  const cur=()=> (K.phase==="solve"||!K.r) ? K.s : K.r;
+  const lab=o=>String(o||"").replace(/\(.*?\)/g,"").replace(/\s+/g," ").trim();
+  const kwRecord=(idx,oi,secs)=>{ const q=D[idx], ans=q[8]-1, k=key(q), ok=oi===ans;
+    if(ok) wrong.delete(k); else wrong.add(k); saveWrong(wrong);
+    const r=rec(k); r.a++; r.t=Date.now(); if(ok) r.b=Math.min(5,Math.max(r.b||0,1)+1); else {r.w++; r.b=1;}
+    const dk=dkey(new Date()), day=ST.days[dk]||(ST.days[dk]={n:0,c:0,s:0}); day.n++; if(ok) day.c++; day.s+=Math.round(Math.min(300,secs));
+    saveST(); updBadge(); };
+  const kwRender=()=>{
+    const c=cur(), has=c.list.length>0; $("kwQ").hidden=!has; if(!has){ $("kwDone").hidden=true; return; }
+    const idx=c.list[c.i], q=D[idx], [y,ses,n,sub,stem,box,tbl,opts,ansN]=q, ans=ansN-1, picked=c.ans.get(idx);
+    const tag=$("kwTag"); tag.textContent=""; const d=document.createElement("span"); d.className="dot"; d.style.background=`var(${SUBJ[sub][2]})`; tag.append(d, document.createTextNode(`${YEARS[y]} · ${ses}교시 ${n}번 · ${q[11]||SUBJ[sub][0]}`));
+    $("kwPos").textContent=(c===K.r?`복습${K.r.round>1?" "+K.r.round+"회차":""} `:"")+`${c.i+1} / ${c.list.length}`;
+    const st=$("kwStem"); st.textContent=""; const no=document.createElement("span"); no.className="no"; no.textContent=n+"."; st.append(no, document.createTextNode(stem));
+    const bx=$("kwQBox"); bx.hidden=!box.length; bx.textContent=box.join("\n");
+    const tw=$("kwTbl"); tw.textContent=""; tw.hidden=!tbl;
+    if(tbl){const t=document.createElement("table"); tbl.forEach((r,ri)=>{const tr=document.createElement("tr"); r.forEach(cc=>{const td=document.createElement(ri?"td":"th"); td.textContent=cc; tr.append(td)}); t.append(tr)}); tw.append(t)}
+    const ob=$("kwOpts"); ob.textContent="";
+    opts.forEach((o,oi)=>{ const b=document.createElement("button"); b.type="button"; b.className="opt";
+      const bu=document.createElement("span"); bu.className="bub"; bu.textContent=oi+1; const tx=document.createElement("span"); tx.textContent=o; tx.style.minWidth="0"; b.append(bu,tx);
+      if(picked!==undefined){ b.disabled=true; if(oi===ans) b.classList.add("ok"); else if(oi===picked) b.classList.add("bad"); else b.classList.add("dim");
+        if(q[10]&&q[10][oi]){ const x=document.createElement("span"); x.className="oex"; x.textContent=q[10][oi]; tx.append(x); b.classList.remove("dim"); } }
+      else b.onclick=()=>{ const secs=(Date.now()-K.t0)/1000; c.ans.set(idx,oi); c.time.set(idx,secs); kwRecord(idx,oi,secs); kwRender(); };
+      ob.append(b); });
+    const fb=$("kwFb"); fb.textContent=""; fb.hidden=picked===undefined;
+    if(picked!==undefined){ const ok=picked===ans; fb.className="fb "+(ok?"ok":"bad");
+      const b=document.createElement("b"); b.textContent= ok?"정답이에요":`오답이에요 · 정답: ${CIRC[ans]} ${opts[ans]}`;
+      const s2=document.createElement("span"); s2.className="src"; s2.textContent=`출처: ${YEARS[y]} 물리치료사 국가시험 ${ses}교시 ${n}번 · ${+y>=51?"최종답안":"가답안"} 기준`; fb.append(b,s2);
+      if(q[9]){ const ex=document.createElement("div"); ex.className="ex"; ex.textContent=q[9]; fb.append(ex); } }
+    else K.t0=Date.now();
+    $("kwPrev").disabled=c.i===0; $("kwNext").disabled=c.i>=c.list.length-1;
+    kwDoneRender();
+  };
+  const kwText=i=>{ if(!KWQ) kwHit(0,[]); return KWQ[i]+"|"+KWE[i]; };
+  const kwStat=n=>{ const inRes=new Set(K.s.list); let hits=0,fresh=0; for(let i=0;i<D.length;i++){ if(kwText(i).includes(n)){ hits++; if(!inRes.has(i)) fresh++; } } return {hits,fresh}; };
+  const kwOk=(n,terms)=> n.length>=2 && n.length<=12 && !/\d/.test(n) && !terms.some(t=>n.includes(t)||t.includes(n));
+  /* 학습 가이드: 첫 풀이와 복습 결과를 보고, 틀린 건 다음에 맞히도록·맞힌 건 확실히 굳히도록 키워드를 고른다 */
+  const kwGuide=()=>{
+    const terms=kwTerms(), s=K.s, N=D.length;
+    const wrongs=s.list.filter(i=>s.ans.get(i)!==A(i)), rights=s.list.filter(i=>s.ans.get(i)===A(i));
+    const still=K.r? K.r.list.filter(i=>K.r.ans.get(i)!==A(i)) : [];
+    const slow=new Set(rights.filter(i=>(s.time.get(i)||0)>45));
+    const C=new Map();
+    const add=(label,w,why,kind)=>{ label=lab(label).replace(/^(왼쪽|오른쪽|양쪽|같은쪽|반대쪽|좌측|우측)\s*/,""); const n=kwNorm(label); if(!kwOk(n,terms)) return;   // 좌우 표현은 떼고 핵심 개념으로
+      const c=C.get(n); if(!c){ C.set(n,{n,label,w,why,kind,top:w}); return; }
+      c.w+=w; if(w>c.top){ c.top=w; c.why=why; c.kind=kind; } };
+    for(const i of wrongs){ const q=D[i], m=still.includes(i)?2:1, p=s.ans.get(i), co=q[7][A(i)], pk=q[7][p];
+      add(pk,1.6*m,`‘${lab(co)}’ 자리에 이걸 골랐어요. 둘을 구분하는 문제로 연습해요`,"fix");
+      add(co,1.3*m,`틀린 문제의 정답 개념이에요. 다른 문제에서도 맞히는지 확인해요`,"fix");
+      q[7].forEach((o,oi)=>{ if(oi!==p&&oi!==A(i)) add(o,.3*m,`틀린 문제에 함께 나온 보기예요`,"fix"); }); }
+    for(const i of rights){ const q=D[i], k=slow.has(i)?1:.6, co=q[7][A(i)];
+      add(co,1.0*k, slow.has(i)?`맞혔지만 오래 고민한 개념이에요. 확실히 굳혀요`:`맞힌 개념이에요. 다른 문제에서도 맞히는지 확인해요`,"keep");
+      q[7].forEach((o,oi)=>{ if(oi!==A(i)) add(o,.35*k,`맞힌 문제의 다른 보기예요. 이것도 구분되는지 확인해요`,"keep"); }); }
+    const out=[]; for(const c of C.values()){ const st=kwStat(c.n); if(st.hits<2||st.hits>80||st.fresh<1) continue; c.hits=st.hits; c.score=c.w*(1+.25*Math.log(N/st.hits)); out.push(c); }
+    out.sort((a,b)=>b.score-a.score);
+    const picked=[], take=(kind,max)=>{ let k=0; for(const c of out){ if(k>=max) break; if(c.kind!==kind||picked.includes(c)||picked.some(p=>p.n.includes(c.n)||c.n.includes(p.n))) continue; picked.push(c); k++; } };
+    take("fix", wrongs.length?3:0); take("keep", wrongs.length?2:4);
+    if(!picked.length){ for(const c of out){ if(picked.length>=4) break; if(picked.some(p=>p.n.includes(c.n)||c.n.includes(p.n))) continue; c.kind="keep"; picked.push(c); } }
+    /* 요약 문장 */
+    const lines=[];
+    lines.push(`첫 풀이 ${s.list.length}문제 중 ${rights.length}개 정답`+(wrongs.length?` · 복습에서 ${wrongs.length-still.length}/${wrongs.length}개 바로잡았어요`:` · 모두 맞혔어요`));
+    const bySub=new Map(); for(const i of wrongs){ const k=D[i][11]||SUBJ[D[i][3]][0]; bySub.set(k,(bySub.get(k)||0)+1); }
+    const weak=[...bySub].sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>=2); if(weak.length) lines.push(`${weak.map(x=>`${x[0]}(${x[1]}문제)`).join(", ")}에서 많이 틀렸어요`);
+    const pairs=wrongs.map(i=>[lab(D[i][7][A(i)]),lab(D[i][7][s.ans.get(i)])]).filter(p=>p[0].length<=20&&p[1].length<=20).slice(0,2);
+    if(pairs.length) lines.push("헷갈린 개념: "+pairs.map(p=>`${p[0]} ↔ ${p[1]}`).join(" / "));
+    if(still.length) lines.push(`아직 ${still.length}문제는 복습에서도 틀렸어요. 아래 '틀린 개념 보완' 키워드를 먼저 풀어 보세요`);
+    else if(slow.size) lines.push(`맞힌 문제 중 ${slow.size}개는 45초 넘게 고민했어요. 확실히 아는지 한 번 더 확인해요`);
+    return {lines,fix:picked.filter(c=>c.kind==="fix"),keep:picked.filter(c=>c.kind==="keep"),still};
+  };
+  const kwCard=c=>{ const b=document.createElement("button"); b.type="button"; b.className="kwrec";
+    const t=document.createElement("span"); t.className="kwrec-t"; t.append(document.createTextNode(c.label)); const n=document.createElement("span"); n.className="n"; n.textContent=`${c.hits}문제`; t.append(n);
+    const w=document.createElement("span"); w.className="kwrec-w"; w.textContent=c.why; b.append(t,w);
+    b.setAttribute("aria-label",`${c.label} ${c.hits}문제 풀기. ${c.why}`);
+    b.onclick=()=>{ $("kwIn").value=c.label; kwSync(); $("kwSheet").scrollTop=0; };
+    return b; };
+  const kwStartReview=list=>{ K.r={list:[...list],i:0,ans:new Map(),time:new Map(),round:(K.r?K.r.round+1:1)}; K.phase="review"; kwRender(); $("kwSheet").scrollTop=$("kwQ").offsetTop-8; };
+  const kwDoneRender=()=>{
+    const box=$("kwDone"), body=$("kwSug"), c=cur(); body.textContent="";
+    const all=c.list.length>0 && c.list.every(i=>c.ans.has(i));
+    box.hidden=!all; if(!all) return;
+    const kt3=($("kwIn").value||"").trim(), s=K.s; $("kwDoneT").classList.remove("kwh");
+    const wrongs=s.list.filter(i=>s.ans.get(i)!==A(i));
+    const btn=(txt,cls,fn)=>{ const b=document.createElement("button"); b.type="button"; b.className=cls; b.textContent=txt; b.onclick=fn; return b; };
+    if(K.phase==="solve" && wrongs.length){
+      $("kwDoneT").textContent=`"${kt3}" 검색 문제 ${s.list.length}개를 다 풀었어요 · 정답 ${s.list.length-wrongs.length}개. 틀린 ${wrongs.length}문제를 복습하고 나면, 풀이를 분석해서 다음 키워드를 추천해 드릴게요.`;
+      const row=document.createElement("div"); row.className="actions";
+      row.append(btn(`틀린 ${wrongs.length}문제 복습하기`,"btn",()=>kwStartReview(wrongs)));
+      body.append(row, btn("복습 건너뛰고 추천 보기","kwlink",()=>{ K.phase="guide"; kwDoneRender(); }));
+      return;
+    }
+    K.phase = K.phase==="solve" ? "guide" : K.phase;   // 다 맞혔으면 바로 가이드
+    const g=kwGuide();
+    $("kwDoneT").textContent="학습 가이드"; $("kwDoneT").classList.add("kwh");
+    const ul=document.createElement("ul"); ul.className="kwg"; g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); }); body.append(ul);
+    const sec=(title,list)=>{ if(!list.length) return; const h=document.createElement("p"); h.className="kwsec"; h.textContent=title; body.append(h); list.forEach(c=>body.append(kwCard(c))); };
+    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix);
+    sec("맞힌 개념 굳히기 · 또 맞히기", g.keep);
+    if(!g.fix.length && !g.keep.length){ const p=document.createElement("p"); p.className="kwg-empty"; p.textContent="이 검색 결과로는 추천할 키워드를 찾지 못했어요. 다른 키워드로 검색해 보세요."; body.append(p); }
+    if(g.still.length){ const row=document.createElement("div"); row.className="actions"; row.append(btn(`아직 틀린 ${g.still.length}문제 한 번 더 복습`,"btn ghost",()=>kwStartReview(g.still))); body.append(row); }
+  };
+  const kwMove=dlt=>{ const c=cur(), j=c.i+dlt; if(j<0||j>=c.list.length) return; c.i=j; kwRender(); $("kwSheet").scrollTop=$("kwQ").offsetTop-8; };
+  $("kwPrev").addEventListener("click",()=>kwMove(-1)); $("kwNext").addEventListener("click",()=>kwMove(1));
+  const kwSync=()=>{ renderHome(); const n=pool().length, kt2=($("kwIn").value||"").trim();
+    const sig=kwTerms().join("|"); if(sig!==K.sig){ K.sig=sig; K.s={list: sig? pool().sort((a,b)=>a-b) : [], i:0, ans:new Map(), time:new Map()}; K.r=null; K.phase="solve"; }
+    kwRender(); $("kwStartRow").hidden = !$("quiz").hidden || !K.s.list.length;
+    $("kwCount").textContent = kt2 ? `전체 연도·과목에서 "${kt2}" 포함 ${n.toLocaleString()}문제` : "전체 연도·과목의 문제·보기·해설에서 찾아요";
+    $("kwStart").disabled = !kt2 || n===0;
+    $("kwBtn").classList.toggle("on", !!kt2); };
+  const kwOpen=()=>{ kwFrom=document.activeElement; kwSync(); $("kwSheet").hidden=false; $("kwShade").hidden=false; $("kwBtn").setAttribute("aria-expanded","true"); if($("qKw")) $("qKw").setAttribute("aria-expanded","true"); $("kwIn").focus({preventScroll:true}); };
+  const kwClose=()=>{ $("kwSheet").hidden=true; $("kwShade").hidden=true; $("kwBtn").setAttribute("aria-expanded","false"); if($("qKw")) $("qKw").setAttribute("aria-expanded","false"); clearTimeout(kt); kwSync(); const b=(kwFrom&&kwFrom.offsetParent!==null)?kwFrom:$("kwBtn"); b.focus({preventScroll:true}); };
+  const kwGo=()=>{ clearTimeout(kt); kwSync(); $("kwIn").blur(); };
+  /* 드래그·길게 눌러 고른 단어로 바로 검색 (문제·보기·해설, 검색 창 안의 문제 모두) */
+  { const sb=$("selSearch"); let selT="", st=0;
+    const zone=n=>{ const el=n&&(n.nodeType===1?n:n.parentElement); return !!(el && (el.closest("#quiz .panel")||el.closest("#kwQ"))); };
+    const place=()=>{ const sel=getSelection(); if(!selT||!sel.rangeCount){ sb.hidden=true; return; }
+      const r=sel.getRangeAt(0).getBoundingClientRect(); if(!r.width&&!r.height){ sb.hidden=true; return; }
+      sb.hidden=false; const w=sb.offsetWidth, h=sb.offsetHeight;
+      let top=r.bottom+10; if(top+h>innerHeight-8) top=Math.max(8,r.top-h-10);
+      sb.style.top=top+"px"; sb.style.left=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8)+"px"; };
+    const upd=()=>{ const sel=getSelection(); let t=sel?String(sel).replace(/\s+/g," ").trim():"";
+      t=t.replace(/^\d+\.\s*/,"").replace(/^[\s.,·:;!?"'“”‘’()\[\]{}①-⑤「」『』《》〈〉<>~-]+|[\s.,·:;!?"'“”‘’()\[\]{}「」『』《》〈〉<>~-]+$/g,"");
+      const ok=t.length>=1 && t.length<=20 && sel.rangeCount && zone(sel.anchorNode) && zone(sel.focusNode);
+      selT=ok?t:""; if(!ok){ sb.hidden=true; return; } $("selWord").textContent=`"${t}"`; sb.setAttribute("aria-label",`${t} 검색`); place(); };
+    document.addEventListener("selectionchange",()=>{ clearTimeout(st); st=setTimeout(upd,160); });
+    addEventListener("scroll",()=>{ if(!sb.hidden) place(); },{passive:true}); $("kwSheet").addEventListener("scroll",()=>{ if(!sb.hidden) place(); },{passive:true});
+    addEventListener("resize",()=>{ if(!sb.hidden) place(); });
+    sb.addEventListener("pointerdown",e=>e.preventDefault());   // 버튼을 눌러도 선택이 풀리지 않게
+    sb.addEventListener("click",()=>{ const t=selT; if(!t) return; getSelection().removeAllRanges(); sb.hidden=true; selT="";
+      $("kwIn").value=t;
+      if($("kwSheet").hidden){ kwOpen(); $("kwIn").blur(); } else { kwSync(); $("kwSheet").scrollTop=0; } });
+    // 보기 글자를 드래그해서 고르다가 보기가 눌려 답이 선택되지 않게
+    document.addEventListener("click",e=>{ const o=e.target.closest&&e.target.closest(".opt"); if(o && String(getSelection()).trim()){ e.stopImmediatePropagation(); e.preventDefault(); } },true);
+  }
+  $("kwIn").addEventListener("input",()=>{ clearTimeout(kt); kt=setTimeout(kwSync,120); });
+  $("kwIn").addEventListener("search",kwSync);
+  $("kwGoBtn").addEventListener("click",kwGo);
+  $("kwIn").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); kwGo(); } });
+  $("kwBtn").addEventListener("click",()=>{ $("kwSheet").hidden?kwOpen():kwClose(); });
+  { const qs=$("qSet"), qh=document.querySelector("#quiz .qhead");
+    if(qh && !$("qKw")){ const b=document.createElement("button"); b.type="button"; b.className="qset qkw"; b.id="qKw";
+      b.setAttribute("aria-label","키워드 검색"); b.title="키워드 검색"; b.setAttribute("aria-controls","kwSheet"); b.setAttribute("aria-expanded","false");
+      b.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>';
+      if(qs && qs.parentNode===qh) qh.insertBefore(b,qs); else qh.append(b);
+      b.addEventListener("click",()=>{ $("kwSheet").hidden?kwOpen():kwClose(); });
+      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" ") e.stopPropagation(); }); } }
+  const SHR='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10h-6V4M4 14h6v6M14 10l7-7M10 14l-7 7"/></svg>', EXPI=$("kwBig").innerHTML;
+  $("kwBig").addEventListener("click",()=>{ const on=!$("kwSheet").classList.contains("big"); $("kwSheet").classList.toggle("big",on);
+    $("kwBig").innerHTML=on?SHR:EXPI; $("kwBig").setAttribute("aria-pressed",String(on)); const l=on?"작게 보기":"크게 보기"; $("kwBig").setAttribute("aria-label",l); $("kwBig").title=l; });
+  $("kwClose").addEventListener("click",kwClose); $("kwShade").addEventListener("click",kwClose);
+  $("kwStart").addEventListener("click",()=>{ const l=pool(); if(!l.length) return; kwClose(); start(l); });
+  // 창이 열려 있는 동안 키 입력은 여기서만 처리(퀴즈 단축키로 새지 않게)
+  /* 창이 열려 있으면 1~5, Space/Enter, ←/→ 키는 창 안의 문제에 먼저 쓴다 */
+  const kwKey=e=>{
+    if(e.altKey||e.ctrlKey||e.metaKey||$("kwQ").hidden||!$("themeSheet").hidden) return;
+    const ae=document.activeElement; if(ae===$("kwIn")) return;          // 검색어 입력 중에는 글자로 들어간다
+    const c=cur(), idx=c.list[c.i], done=c.ans.has(idx);
+    if(/^[1-5]$/.test(e.key)){ if(!done){ const b=$("kwOpts").children[+e.key-1]; if(b){ e.preventDefault(); b.click(); } } return; }
+    if(e.key===" "||e.key==="Enter"){
+      if(ae && ae.tagName==="BUTTON" && $("kwSheet").contains(ae) && !ae.closest("#kwOpts")) return;   // 버튼에 초점이 있으면 그 버튼을 누른다
+      if(!done) return; e.preventDefault();
+      if(c.i<c.list.length-1) kwMove(1);
+      else { const f=$("kwSug").querySelector("button"); if(f){ f.focus(); f.scrollIntoView({block:"nearest",behavior:"smooth"}); } }
+      return; }
+    if(e.key==="ArrowRight"&&done){ e.preventDefault(); kwMove(1); } else if(e.key==="ArrowLeft"){ e.preventDefault(); kwMove(-1); }
+  };
+  $("kwSheet").addEventListener("keydown",e=>{ e.stopPropagation(); if(e.key==="Escape"){ e.preventDefault(); kwClose(); return; } kwKey(e); });
+  document.addEventListener("keydown",e=>{ if(!$("kwSheet").hidden && !$("kwSheet").contains(e.target)) kwKey(e); });
+  document.addEventListener("keydown",e=>{ if(!$("kwSheet").hidden && e.key==="Escape"){ e.preventDefault(); kwClose(); } });
+}
 $("wrongBtn").onclick=()=>{ const ids=[...wrong].map(k=>KEYIDX.get(k)).filter(i=>i!==undefined); start(ids,false,true); };
 $("nextBtn").onclick=next;
 $("prevBtn").onclick=prev;
@@ -1153,7 +1422,7 @@ document.querySelectorAll("#limSeg button").forEach(b=>b.onclick=()=>{ document.
 $("retryBtn").onclick=()=>{ const l=[...S.wrongNow]; S=null; const lim=$("limit").value; $("limit").value="0"; start(l,false,true); $("limit").value=lim; };
 $("homeBtn").onclick=()=>{show("home"); renderHome()};
 document.addEventListener("keydown",e=>{
-  if($("quiz").hidden||e.altKey||e.ctrlKey||e.metaKey) return;
+  if($("quiz").hidden||e.altKey||e.ctrlKey||e.metaKey||!$("kwSheet").hidden) return;
   if(/^[1-5]$/.test(e.key) && !S.done){ const b=$("qOpts").children[+e.key-1]; if(b) b.click(); e.preventDefault(); }
   else if((e.key==="Enter"||e.key===" ") && S.done){
     const ae=document.activeElement; if(ae && ae.tagName==="BUTTON") return;
