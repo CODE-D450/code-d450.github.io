@@ -146,7 +146,8 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwsheet.big{top:calc(8px + env(safe-area-inset-top,0px));max-height:none;max-width:760px}
 .kwsheet.big .stem{font-size:calc(1.35rem * var(--rf,1))}
 .kwq{display:flex;flex-direction:column;gap:14px;padding-top:14px;border-top:1px solid var(--line)}
-.kwq[hidden],#kwStartRow[hidden]{display:none}
+.kwq[hidden]{display:none}
+#selCount .selN{font-family:var(--f-num);font-weight:600;color:var(--ink)}
 .kwqh{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .kwpos{font-family:var(--f-num);font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums;white-space:nowrap}
 .kwsheet .stem{font-size:calc(1.15rem * var(--rf,1))}
@@ -172,6 +173,22 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 #rGuideL{font-size:.95rem}
 .kwdone-t.kwh{font-weight:600;font-size:1.05rem}
 .kwg-empty{margin:0;font-size:.92rem;color:var(--muted)}
+/* learning guide: "my analysis" and "recommended keywords" read as two separate blocks */
+.kwan{background:var(--paper);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+#rGuideP .kwan{background:var(--tile)}
+.kwlab{margin:0;font-size:12px;line-height:1;color:var(--meta);letter-spacing:.02em}
+.kwan .kwg{color:var(--ink)}
+.kwan .kwg li::marker{color:var(--meta)}
+.kwrh{margin-top:10px;padding-top:16px;border-top:1px solid var(--line-strong)}
+.kwrh[hidden]{display:none}
+.kwrh-t{margin:0;font-weight:600;font-size:1rem;line-height:1.3}
+.kwrh-s{margin:4px 0 0;font-size:13px;line-height:1.4;color:var(--meta)}
+.kwsec{display:flex;align-items:center;gap:8px;margin:10px 0 0;font-weight:500;color:var(--ink)}
+.kwsec::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--meta)}
+.kwsec.fix::before{background:var(--bad)}
+.kwsec.keep::before{background:var(--ok)}
+.kwrec{position:relative;padding-right:40px}
+.kwrec::after{content:"→";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--f-num);color:var(--meta)}
 .qkw + .qset{margin-left:8px}
 .qset.qkw[aria-expanded="true"]{background:var(--tile);color:var(--ink)}
 .kwsheet .actions > .btn{flex:1 1 100%}
@@ -550,8 +567,8 @@ window.__ptqText=(function(){
   <div class="grab"></div>
   <div class="shhead"><h3 id="shTitle">연도 선택</h3><button type="button" class="btn" id="shDone">완료</button></div>
   <div class="shbody">
-    <div data-body="Y"><div class="chips" id="yearChips"></div></div>
-    <div data-body="S"><div class="chips" id="subjChips"></div></div>
+    <div data-body="Y"><div class="row" style="justify-content:flex-end;margin-bottom:8px"><button type="button" class="lnk" id="yAll">전체 해제</button></div><div class="chips" id="yearChips"></div></div>
+    <div data-body="S"><div class="row" style="justify-content:flex-end;margin-bottom:8px"><button type="button" class="lnk" id="sAll">전체 해제</button></div><div class="chips" id="subjChips"></div></div>
     <div data-body="Sub"><div class="row" style="justify-content:flex-end;margin-bottom:8px"><button type="button" class="lnk" id="subAll">전체 선택</button></div><div id="subChips" style="display:flex;flex-direction:column;gap:12px"></div></div>
   </div>
   <div class="shfoot count" id="shCount"></div>
@@ -628,9 +645,9 @@ window.__ptqText=(function(){
       </div>
     </div>
     <div class="panel" id="rGuideP" hidden>
-      <h2>학습 가이드 · 다음 키워드</h2>
-      <ul class="kwg" id="rGuideL"></ul>
-      <p class="count">키워드를 누르면 검색 창에서 바로 풀 수 있어요.</p>
+      <h2>학습 가이드</h2>
+      <div class="kwan"><p class="kwlab">내 풀이 분석</p><ul class="kwg" id="rGuideL"></ul></div>
+      <div class="kwrh" id="rGuideH"><p class="kwrh-t">다음에 풀어 볼 키워드</p><p class="kwrh-s">누르면 검색 창에서 바로 풀 수 있어요</p></div>
       <div class="kwsug" id="rGuide"></div>
     </div>
     <div class="panel">
@@ -720,7 +737,6 @@ window.__ptqText=(function(){
         <div class="kwsug" id="kwSug"></div>
       </div>
     </div>
-    <div class="actions" id="kwStartRow"><button class="btn" id="kwStart">검색한 문제로 새로 풀기</button></div>
   </div>
 </div>
 <div class="tshade" id="themeShade" hidden></div>
@@ -958,16 +974,25 @@ function kwHit(i,terms){
   return terms.every(k=>t.includes(k));
 }
 /* 키워드가 있으면 연도·과목 선택과 상관없이 전체 문제에서 찾는다 */
-function pool(){const terms=kwTerms(); if(terms.length) return D.map((q,i)=>i).filter(i=>kwHit(i,terms)); return D.map((q,i)=>i).filter(i=>selY.has(D[i][0])&&selS.has(D[i][3])&&selSub.has(D[i][11]))}
+/* 메인 화면의 출제 범위(연도·과목·세부 과목)만 본다. 키워드 검색 창과는 섞지 않는다. */
+function pool(){return D.map((q,i)=>i).filter(i=>selY.has(D[i][0])&&selS.has(D[i][3])&&selSub.has(D[i][11]))}
+/* 키워드 검색 창 전용: 전체 연도·과목에서 검색어가 들어간 문제 */
+/* 문항 수 아래 표시: 이번에 풀 문항 / 출제 범위에서 고른 문항 (예: 10 / 20) */
+let selTotal=0;
+function updSel(){ const lim=+$("limit").value, n=lim>0?Math.min(lim,selTotal):selTotal, el=$("selCount"); el.textContent="";
+  const b=document.createElement("b"); b.className="selN"; b.textContent=n.toLocaleString();
+  el.append("이번에 풀 문항 ", b, ` / ${selTotal.toLocaleString()}개`); }
+function kwPool(){const terms=kwTerms(); return terms.length? D.map((q,i)=>i).filter(i=>kwHit(i,terms)) : [];}
 function renderHome(){
   const yc=$("yearChips"); yc.textContent="";
-  const allY = selY.size===Object.keys(YEARS).length;
-  yc.append(chip("전체", D.length, allY, null, ()=>{ if(allY) selY.clear(); else Object.keys(YEARS).forEach(y=>selY.add(y)); }));
+  const allY = Object.keys(YEARS).every(y=>selY.has(y));
+  $("yAll").textContent = allY? "전체 해제":"전체 선택";
   for(const y of Object.keys(YEARS).reverse()){
     const n=D.filter(q=>q[0]===y).length;
     yc.append(chip(YEARS[y].split(" ")[0]+"년", n, selY.has(y), null, ()=>{ selY.has(y)?selY.delete(y):selY.add(y) }));
   }
   const sc=$("subjChips"); sc.textContent="";
+  $("sAll").textContent = Object.keys(SUBJ).every(s=>selS.has(s))? "전체 해제":"전체 선택";
   for(const s of Object.keys(SUBJ)){
     const n=D.filter(q=>q[3]===s&&selY.has(q[0])).length;
     sc.append(chip(SUBJ[s][0], n, selS.has(s), SUBJ[s][2], ()=>{ if(selS.has(s)){selS.delete(s)} else {selS.add(s); SUBORDER[s].forEach(x=>selSub.add(x))} }));
@@ -993,7 +1018,7 @@ function renderHome(){
   const allSub=Object.values(SUBORDER).flat().every(x=>selSub.has(x));
   $("subAll").textContent = allSub? "전체 해제":"전체 선택";
   const p=pool().length;
-  { const kt=($("kwIn").value||"").trim(); $("selCount").textContent = kt ? `전체 연도·과목에서 "${kt}" 포함 ${p.toLocaleString()}문제` : `선택된 문항 ${p.toLocaleString()}개`; }
+  selTotal=p; updSel();
   $("shCount").textContent = `선택된 문항 ${p.toLocaleString()}개`;
   $("startBtn").disabled = p===0;
   $("wrongBtn").textContent = `누적 오답 다시 풀기 (${wrong.size})`;
@@ -1242,6 +1267,9 @@ $("qStar").onclick=()=>{ if(!S) return; const r=rec(key(D[S.list[S.i]])); r.s=!r
 for(const b of document.querySelectorAll(".tab")) b.onclick=()=>{
   const t=b.dataset.tab; if(t==="home"){show("home"); renderHome()} else if(t==="stats"){show("stats"); renderStats()} else {show("notes"); renderNotes()}
 };
+$("yAll").onclick=()=>{ const yk=Object.keys(YEARS), on=yk.every(y=>selY.has(y)); yk.forEach(y=>on?selY.delete(y):selY.add(y)); renderHome(); };
+// 과목을 켤 때는 개별 칩과 똑같이 그 과목의 세부 과목도 함께 켠다
+$("sAll").onclick=()=>{ const sk=Object.keys(SUBJ), on=sk.every(s=>selS.has(s)); sk.forEach(s=>{ if(on) selS.delete(s); else { selS.add(s); SUBORDER[s].forEach(x=>selSub.add(x)); } }); renderHome(); };
 $("subAll").onclick=()=>{ const all=Object.values(SUBORDER).flat(); const on=all.every(x=>selSub.has(x)); all.forEach(x=>on?selSub.delete(x):selSub.add(x)); renderHome(); };
 $("startBtn").onclick=()=>start(pool());
 { let kt=0, kwFrom=null;
@@ -1342,20 +1370,25 @@ $("startBtn").onclick=()=>start(pool());
     K.phase = K.phase==="solve" ? "guide" : K.phase;   // 다 맞혔으면 바로 가이드
     const g=kwGuide();
     $("kwDoneT").textContent="학습 가이드"; $("kwDoneT").classList.add("kwh");
-    const ul=document.createElement("ul"); ul.className="kwg"; g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); }); body.append(ul);
-    const sec=(title,list)=>{ if(!list.length) return; const h=document.createElement("p"); h.className="kwsec"; h.textContent=title; body.append(h); list.forEach(c=>body.append(kwCard(c))); };
-    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix);
-    sec("맞힌 개념 굳히기 · 또 맞히기", g.keep);
+    // block 1: what the analysis found
+    const ul=document.createElement("ul"); ul.className="kwg"; g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); });
+    const an=document.createElement("div"); an.className="kwan"; const al=document.createElement("p"); al.className="kwlab"; al.textContent="내 풀이 분석"; an.append(al,ul); body.append(an);
+    // block 2: what to solve next (tappable keyword cards)
+    if(g.fix.length||g.keep.length){ const rh=document.createElement("div"); rh.className="kwrh";
+      const t=document.createElement("p"); t.className="kwrh-t"; t.textContent="다음에 풀어 볼 키워드";
+      const s=document.createElement("p"); s.className="kwrh-s"; s.textContent="누르면 그 키워드로 바로 검색돼요"; rh.append(t,s); body.append(rh); }
+    const sec=(title,list,kind)=>{ if(!list.length) return; const h=document.createElement("p"); h.className="kwsec "+kind; h.textContent=title; body.append(h); list.forEach(c=>body.append(kwCard(c))); };
+    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix, "fix");
+    sec("맞힌 개념 굳히기 · 또 맞히기", g.keep, "keep");
     if(!g.fix.length && !g.keep.length){ const p=document.createElement("p"); p.className="kwg-empty"; p.textContent="이 검색 결과로는 추천할 키워드를 찾지 못했어요. 다른 키워드로 검색해 보세요."; body.append(p); }
     if(g.still.length){ const row=document.createElement("div"); row.className="actions"; row.append(btn(`아직 틀린 ${g.still.length}문제 한 번 더 복습`,"btn ghost",()=>kwStartReview(g.still))); body.append(row); }
   };
   const kwMove=dlt=>{ const c=cur(), j=c.i+dlt; if(j<0||j>=c.list.length) return; c.i=j; kwRender(); $("kwSheet").scrollTop=$("kwQ").offsetTop-8; };
   $("kwPrev").addEventListener("click",()=>kwMove(-1)); $("kwNext").addEventListener("click",()=>kwMove(1));
-  const kwSync=()=>{ renderHome(); const n=pool().length, kt2=($("kwIn").value||"").trim();
-    const sig=kwTerms().join("|"); if(sig!==K.sig){ K.sig=sig; K.s={list: sig? pool().sort((a,b)=>a-b) : [], i:0, ans:new Map(), time:new Map()}; K.r=null; K.phase="solve"; }
-    kwRender(); $("kwStartRow").hidden = !$("quiz").hidden || !K.s.list.length;
+  const kwSync=()=>{ const n=kwPool().length, kt2=($("kwIn").value||"").trim();
+    const sig=kwTerms().join("|"); if(sig!==K.sig){ K.sig=sig; K.s={list: sig? kwPool().sort((a,b)=>a-b) : [], i:0, ans:new Map(), time:new Map()}; K.r=null; K.phase="solve"; }
+    kwRender();
     $("kwCount").textContent = kt2 ? `전체 연도·과목에서 "${kt2}" 포함 ${n.toLocaleString()}문제` : "전체 연도·과목의 문제·보기·해설에서 찾아요";
-    $("kwStart").disabled = !kt2 || n===0;
     $("kwBtn").classList.toggle("on", !!kt2); };
   const kwOpen=()=>{ kwFrom=document.activeElement; kwSync(); $("kwSheet").hidden=false; $("kwShade").hidden=false; $("kwBtn").setAttribute("aria-expanded","true"); if($("qKw")) $("qKw").setAttribute("aria-expanded","true"); $("kwIn").focus({preventScroll:true}); };
   const kwClose=()=>{ $("kwSheet").hidden=true; $("kwShade").hidden=true; $("kwBtn").setAttribute("aria-expanded","false"); if($("qKw")) $("qKw").setAttribute("aria-expanded","false"); clearTimeout(kt); kwSync(); const b=(kwFrom&&kwFrom.offsetParent!==null)?kwFrom:$("kwBtn"); b.focus({preventScroll:true}); };
@@ -1367,10 +1400,11 @@ $("startBtn").onclick=()=>start(pool());
     const list=[], ans=new Map(), time=new Map();
     if(S&&S.hist) S.list.forEach((idx,j)=>{ const h=S.hist[j]; if(h){ list.push(idx); ans.set(idx,h.oi); time.set(idx,h.t||0); } });
     if(!list.length){ P.hidden=true; return; }
-    const g=kwGuideFrom({s:{list,ans,time}, terms:kwTerms(), still:[], review:false, head:"이번 세트"});
+    const g=kwGuideFrom({s:{list,ans,time}, terms:[], still:[], review:false, head:"이번 세트"});   // 메인 세트는 검색어와 무관
     g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; L.append(li); });
-    const sec=(title,arr)=>{ if(!arr.length) return; const h=document.createElement("p"); h.className="kwsec"; h.textContent=title; G.append(h); arr.forEach(c=>G.append(kwCard(c,kwOpenWith))); };
-    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix); sec("맞힌 개념 굳히기 · 또 맞히기", g.keep);
+    $("rGuideH").hidden = !(g.fix.length||g.keep.length);
+    const sec=(title,arr,kind)=>{ if(!arr.length) return; const h=document.createElement("p"); h.className="kwsec "+kind; h.textContent=title; G.append(h); arr.forEach(c=>G.append(kwCard(c,kwOpenWith))); };
+    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix, "fix"); sec("맞힌 개념 굳히기 · 또 맞히기", g.keep, "keep");
     if(!g.fix.length&&!g.keep.length){ const p=document.createElement("p"); p.className="kwg-empty"; p.textContent="이번 세트로는 추천할 키워드를 찾지 못했어요."; G.append(p); }
     P.hidden=false;
   };
@@ -1412,7 +1446,6 @@ $("startBtn").onclick=()=>start(pool());
   $("kwBig").addEventListener("click",()=>{ const on=!$("kwSheet").classList.contains("big"); $("kwSheet").classList.toggle("big",on);
     $("kwBig").innerHTML=on?SHR:EXPI; $("kwBig").setAttribute("aria-pressed",String(on)); const l=on?"작게 보기":"크게 보기"; $("kwBig").setAttribute("aria-label",l); $("kwBig").title=l; });
   $("kwClose").addEventListener("click",kwClose); $("kwShade").addEventListener("click",kwClose);
-  $("kwStart").addEventListener("click",()=>{ const l=pool(); if(!l.length) return; kwClose(); start(l); });
   // 창이 열려 있는 동안 키 입력은 여기서만 처리(퀴즈 단축키로 새지 않게)
   /* 창이 열려 있으면 1~5, Space/Enter, ←/→ 키는 창 안의 문제에 먼저 쓴다 */
   const kwKey=e=>{
@@ -1442,7 +1475,7 @@ function closeSheet(){ $("shade").hidden=true; $("sheet").hidden=true; document.
 document.querySelectorAll(".pill").forEach(b=>b.onclick=()=>openSheet(b.dataset.sheet,b));
 $("shDone").onclick=closeSheet; $("shade").onclick=closeSheet;
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("sheet").hidden){ e.stopPropagation(); closeSheet(); } },true);
-document.querySelectorAll("#limSeg button").forEach(b=>b.onclick=()=>{ document.querySelectorAll("#limSeg button").forEach(x=>x.classList.toggle("on",x===b)); $("limit").value=b.dataset.v; });
+document.querySelectorAll("#limSeg button").forEach(b=>b.onclick=()=>{ document.querySelectorAll("#limSeg button").forEach(x=>x.classList.toggle("on",x===b)); $("limit").value=b.dataset.v; updSel(); });
 $("retryBtn").onclick=()=>{ const l=[...S.wrongNow]; S=null; const lim=$("limit").value; $("limit").value="0"; start(l,false,true); $("limit").value=lim; };
 $("homeBtn").onclick=()=>{show("home"); renderHome()};
 document.addEventListener("keydown",e=>{
