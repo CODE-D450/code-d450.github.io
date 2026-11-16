@@ -146,7 +146,7 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwsheet.big{top:calc(8px + env(safe-area-inset-top,0px));max-height:none;max-width:760px}
 .kwsheet.big .stem{font-size:calc(1.35rem * var(--rf,1))}
 .kwq{display:flex;flex-direction:column;gap:14px;padding-top:14px;border-top:1px solid var(--line)}
-.kwq[hidden],#kwStartRow[hidden]{display:none}
+.kwq[hidden]{display:none}
 .kwqh{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .kwpos{font-family:var(--f-num);font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums;white-space:nowrap}
 .kwsheet .stem{font-size:calc(1.15rem * var(--rf,1))}
@@ -170,6 +170,20 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwdone .btn.ghost{background:var(--paper)}
 .kwdone-t.kwh{font-weight:600;font-size:1.05rem}
 .kwg-empty{margin:0;font-size:.92rem;color:var(--muted)}
+/* learning guide: "my analysis" and "recommended keywords" read as two separate blocks */
+.kwan{background:var(--paper);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kwlab{margin:0;font-size:12px;line-height:1;color:var(--meta);letter-spacing:.02em}
+.kwan .kwg{color:var(--ink)}
+.kwan .kwg li::marker{color:var(--meta)}
+.kwrh{margin-top:10px;padding-top:16px;border-top:1px solid var(--line-strong)}
+.kwrh-t{margin:0;font-weight:600;font-size:1rem;line-height:1.3}
+.kwrh-s{margin:4px 0 0;font-size:13px;line-height:1.4;color:var(--meta)}
+.kwsec{display:flex;align-items:center;gap:8px;margin:10px 0 0;font-weight:500;color:var(--ink)}
+.kwsec::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--meta)}
+.kwsec.fix::before{background:var(--bad)}
+.kwsec.keep::before{background:var(--ok)}
+.kwrec{position:relative;padding-right:40px}
+.kwrec::after{content:"→";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--f-num);color:var(--meta)}
 .qkw + .qset{margin-left:8px}
 .qset.qkw[aria-expanded="true"]{background:var(--tile);color:var(--ink)}
 .kwsheet .actions > .btn{flex:1 1 100%}
@@ -712,7 +726,6 @@ window.__ptqText=(function(){
         <div class="kwsug" id="kwSug"></div>
       </div>
     </div>
-    <div class="actions" id="kwStartRow"><button class="btn" id="kwStart">검색한 문제로 새로 풀기</button></div>
   </div>
 </div>
 <div class="tshade" id="themeShade" hidden></div>
@@ -1332,10 +1345,16 @@ $("startBtn").onclick=()=>start(pool());
     K.phase = K.phase==="solve" ? "guide" : K.phase;   // 다 맞혔으면 바로 가이드
     const g=kwGuide();
     $("kwDoneT").textContent="학습 가이드"; $("kwDoneT").classList.add("kwh");
-    const ul=document.createElement("ul"); ul.className="kwg"; g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); }); body.append(ul);
-    const sec=(title,list)=>{ if(!list.length) return; const h=document.createElement("p"); h.className="kwsec"; h.textContent=title; body.append(h); list.forEach(c=>body.append(kwCard(c))); };
-    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix);
-    sec("맞힌 개념 굳히기 · 또 맞히기", g.keep);
+    // block 1: what the analysis found
+    const ul=document.createElement("ul"); ul.className="kwg"; g.lines.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); });
+    const an=document.createElement("div"); an.className="kwan"; const al=document.createElement("p"); al.className="kwlab"; al.textContent="내 풀이 분석"; an.append(al,ul); body.append(an);
+    // block 2: what to solve next (tappable keyword cards)
+    if(g.fix.length||g.keep.length){ const rh=document.createElement("div"); rh.className="kwrh";
+      const t=document.createElement("p"); t.className="kwrh-t"; t.textContent="다음에 풀어 볼 키워드";
+      const s=document.createElement("p"); s.className="kwrh-s"; s.textContent="누르면 그 키워드로 바로 검색돼요"; rh.append(t,s); body.append(rh); }
+    const sec=(title,list,kind)=>{ if(!list.length) return; const h=document.createElement("p"); h.className="kwsec "+kind; h.textContent=title; body.append(h); list.forEach(c=>body.append(kwCard(c))); };
+    sec("틀린 개념 보완 · 다음엔 맞히기", g.fix, "fix");
+    sec("맞힌 개념 굳히기 · 또 맞히기", g.keep, "keep");
     if(!g.fix.length && !g.keep.length){ const p=document.createElement("p"); p.className="kwg-empty"; p.textContent="이 검색 결과로는 추천할 키워드를 찾지 못했어요. 다른 키워드로 검색해 보세요."; body.append(p); }
     if(g.still.length){ const row=document.createElement("div"); row.className="actions"; row.append(btn(`아직 틀린 ${g.still.length}문제 한 번 더 복습`,"btn ghost",()=>kwStartReview(g.still))); body.append(row); }
   };
@@ -1343,9 +1362,8 @@ $("startBtn").onclick=()=>start(pool());
   $("kwPrev").addEventListener("click",()=>kwMove(-1)); $("kwNext").addEventListener("click",()=>kwMove(1));
   const kwSync=()=>{ renderHome(); const n=pool().length, kt2=($("kwIn").value||"").trim();
     const sig=kwTerms().join("|"); if(sig!==K.sig){ K.sig=sig; K.s={list: sig? pool().sort((a,b)=>a-b) : [], i:0, ans:new Map(), time:new Map()}; K.r=null; K.phase="solve"; }
-    kwRender(); $("kwStartRow").hidden = !$("quiz").hidden || !K.s.list.length;
+    kwRender();
     $("kwCount").textContent = kt2 ? `전체 연도·과목에서 "${kt2}" 포함 ${n.toLocaleString()}문제` : "전체 연도·과목의 문제·보기·해설에서 찾아요";
-    $("kwStart").disabled = !kt2 || n===0;
     $("kwBtn").classList.toggle("on", !!kt2); };
   const kwOpen=()=>{ kwFrom=document.activeElement; kwSync(); $("kwSheet").hidden=false; $("kwShade").hidden=false; $("kwBtn").setAttribute("aria-expanded","true"); if($("qKw")) $("qKw").setAttribute("aria-expanded","true"); $("kwIn").focus({preventScroll:true}); };
   const kwClose=()=>{ $("kwSheet").hidden=true; $("kwShade").hidden=true; $("kwBtn").setAttribute("aria-expanded","false"); if($("qKw")) $("qKw").setAttribute("aria-expanded","false"); clearTimeout(kt); kwSync(); const b=(kwFrom&&kwFrom.offsetParent!==null)?kwFrom:$("kwBtn"); b.focus({preventScroll:true}); };
@@ -1388,7 +1406,6 @@ $("startBtn").onclick=()=>start(pool());
   $("kwBig").addEventListener("click",()=>{ const on=!$("kwSheet").classList.contains("big"); $("kwSheet").classList.toggle("big",on);
     $("kwBig").innerHTML=on?SHR:EXPI; $("kwBig").setAttribute("aria-pressed",String(on)); const l=on?"작게 보기":"크게 보기"; $("kwBig").setAttribute("aria-label",l); $("kwBig").title=l; });
   $("kwClose").addEventListener("click",kwClose); $("kwShade").addEventListener("click",kwClose);
-  $("kwStart").addEventListener("click",()=>{ const l=pool(); if(!l.length) return; kwClose(); start(l); });
   // 창이 열려 있는 동안 키 입력은 여기서만 처리(퀴즈 단축키로 새지 않게)
   /* 창이 열려 있으면 1~5, Space/Enter, ←/→ 키는 창 안의 문제에 먼저 쓴다 */
   const kwKey=e=>{
