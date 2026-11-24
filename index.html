@@ -177,6 +177,41 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwtests .tcard{background:var(--tile)}
 .tgroup{display:flex;flex-direction:column;gap:6px}
 .tgl-l{font-size:12px;color:var(--meta)}
+.prbody .prl{margin:16px 0 8px;font-size:13px;color:var(--meta)}
+.prbody .prnote{margin:18px 0 0;font-size:13px;color:var(--meta)}
+#printArea{display:none}
+@media print{
+  @page{size:A4;margin:12mm 11mm 14mm}
+  html,body{background:#fff!important}
+  body.printing > *:not(#printArea){display:none!important}
+  body.printing #printArea{display:block!important;color:#000;font:9.6pt/1.45 "Noto Sans KR","Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+#printArea .ph{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5pt solid #000;padding-bottom:4pt;margin-bottom:8pt}
+#printArea .ph b{font-size:14pt;letter-spacing:-.02em}
+#printArea .ph span{font-size:8.5pt;color:#555}
+#printArea .pcols.c2{column-count:2;column-gap:8mm;column-rule:.5pt solid #ddd}
+#printArea .psub{break-after:avoid;font-size:10.5pt;font-weight:700;margin:4pt 0 6pt;padding:2pt 6pt;background:#eee;border-radius:3pt}
+#printArea .pq{break-inside:avoid;margin:0 0 9pt;padding-bottom:7pt;border-bottom:.5pt solid #ccc}
+#printArea .pq .src{font-size:7.8pt;color:#666;margin-bottom:2pt}
+#printArea .pq .st{font-weight:600;margin:0 0 3pt}
+#printArea .pq .st i{font-style:normal;margin-right:3pt}
+#printArea .pq .bx{white-space:pre-line;border:.6pt solid #999;border-radius:2pt;padding:3pt 5pt;margin:3pt 0;font-size:9pt}
+#printArea .pq table{border-collapse:collapse;margin:3pt 0;font-size:8.4pt;width:100%}
+#printArea .pq td,#printArea .pq th{border:.5pt solid #999;padding:1.5pt 3pt;text-align:left;display:table-cell}
+#printArea .pq tr{display:table-row}
+#printArea .pq ol{list-style:none;margin:2pt 0 0;padding:0}
+#printArea .pq li{padding-left:13pt;text-indent:-13pt}
+#printArea .pq li.pa{font-weight:700}
+#printArea .pq li.pa::after{content:"  ← 정답";font-size:7.5pt;font-weight:600}
+#printArea .pq .pex{margin-top:3pt;font-size:8.4pt;color:#222;background:#f3f3f3;padding:3pt 5pt;border-radius:2pt}
+#printArea .pq .pex b{font-weight:700}
+#printArea .pq .pmemo{margin-top:3pt;font-size:8.4pt;border-left:2pt solid #000;padding-left:4pt}
+#printArea .pans{break-before:page}
+#printArea .pans h2{font-size:12pt;margin:0 0 6pt;border-bottom:1pt solid #000;padding-bottom:3pt}
+#printArea .agrid{display:grid;grid-template-columns:repeat(8,1fr);gap:2pt 6pt;font-size:9pt;margin-bottom:10pt}
+#printArea .aex{break-inside:avoid;margin:0 0 5pt;font-size:8.4pt}
+#printArea .pfoot{margin-top:6pt;font-size:7.5pt;color:#777}
+
 .lawt{display:flex;flex-direction:column;gap:12px}
 .lawt .chips{margin:2px 0 0}
 .kwdict .lawt .tg[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
@@ -617,6 +652,27 @@ window.__ptqText=(function(){
 
 <div class="wrap">
 <div class="shade" id="shade" hidden></div>
+<div class="shade" id="prShade" hidden></div>
+<div class="sheet" id="prSheet" role="dialog" aria-modal="true" aria-labelledby="prTitle" hidden>
+  <div class="grab"></div>
+  <div class="shhead"><h3 id="prTitle">별표 문제 인쇄</h3><button type="button" class="btn ghost" id="prClose" style="padding:0 18px;min-height:38px">닫기</button></div>
+  <div class="shbody prbody">
+    <p class="count" id="prCount"></p>
+    <p class="prl">정답 표시</p>
+    <div class="chips" id="prMode">
+      <button type="button" class="tg" data-v="inline" aria-pressed="true">문제 바로 아래</button>
+      <button type="button" class="tg" data-v="end" aria-pressed="false">맨 끝에 정답표</button>
+    </div>
+    <p class="prl">함께 넣기</p>
+    <div class="chips" id="prOpt">
+      <button type="button" class="tg" data-v="ex" aria-pressed="true">해설</button>
+      <button type="button" class="tg" data-v="memo" aria-pressed="true">내 메모</button>
+      <button type="button" class="tg" data-v="col2" aria-pressed="true">2단으로 촘촘하게</button>
+    </div>
+    <p class="prnote">인쇄 창에서 'PDF로 저장'을 고르면 파일로도 받을 수 있어요.</p>
+  </div>
+  <div class="actions" style="margin-top:12px"><button type="button" class="btn" id="prGo" style="flex:1 1 100%">인쇄하기</button></div>
+</div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden>
   <div class="grab"></div>
   <div class="shhead"><h3 id="shTitle">연도 선택</h3><button type="button" class="btn" id="shDone">완료</button></div>
@@ -757,7 +813,7 @@ window.__ptqText=(function(){
   <section id="notes" hidden class="wrap" style="gap:14px">
     <p class="ptitle">오답 노트</p>
     <div class="chips" id="nChips"></div>
-    <div class="actions"><button type="button" class="btn" id="nPlay">이 목록 다시 풀기</button></div>
+    <div class="actions"><button type="button" class="btn" id="nPlay">이 목록 다시 풀기</button><button type="button" class="btn ghost" id="nPrint">별표 문제 인쇄</button></div>
     <div id="nList" style="display:flex;flex-direction:column;gap:12px"></div>
   </section>
 </div>
@@ -1937,7 +1993,7 @@ function renderNotes(){
   const fc=(id,label,n)=>{const b=el("button","tg"); b.type="button"; b.setAttribute("aria-pressed",nFilter===id); b.append(document.createTextNode(label)); b.append(el("span","n",n)); b.onclick=()=>{nFilter=id; renderNotes()}; C.append(b)};
   fc("all","전체",all.length); fc("star","★ 별표",all.filter(k=>ST.q[k].s).length); fc("w2","2번 이상 틀림",all.filter(k=>ST.q[k].w>=2).length);
   const ks=noteList(), L=$("nList"); L.textContent="";
-  $("nPlay").disabled=!ks.length; $("nPlay").textContent=`이 목록 다시 풀기 (${ks.length})`;
+  $("nPlay").disabled=!ks.length; $("nPlay").textContent=`이 목록 다시 풀기 (${ks.length})`; if(window.__prSync) window.__prSync();
   if(!ks.length){L.append(el("div","note", all.length?"이 조건에 맞는 문항이 없어요.":"아직 오답이 없어요. 문제를 풀다 틀리거나 ★을 누르면 여기에 모여요.")); return}
   for(const k of ks){
     const q=D[KEYIDX.get(k)], r=ST.q[k], card=el("article","ncard");
@@ -1962,6 +2018,52 @@ function renderNotes(){
   }
 }
 $("nPlay").onclick=()=>{const ids=noteList().map(k=>KEYIDX.get(k)); if(ids.length) start(ids,true,true)};
+
+/* ---------- 별표 문제 인쇄 ---------- */
+(function(){
+  const SORD={basic:0,eval:1,interv:2,law:3};
+  const starKeys=()=>Object.keys(ST.q).filter(k=>KEYIDX.has(k)&&ST.q[k].s).sort((a,b)=>{ const qa=D[KEYIDX.get(a)], qb=D[KEYIDX.get(b)];
+    return (SORD[qa[3]]-SORD[qb[3]])||(+qa[0]-+qb[0])||(+qa[1]-+qb[1])||(+qa[2]-+qb[2]); });
+  const sync=()=>{ const n=starKeys().length, b=$("nPrint"); b.disabled=!n; b.textContent=n?`별표 문제 인쇄 (${n})`:"별표 문제 인쇄"; };
+  window.__prSync=sync;
+  const pick=id=>[...document.querySelectorAll("#"+id+" .tg")];
+  pick("prMode").forEach(b=>b.onclick=()=>pick("prMode").forEach(x=>x.setAttribute("aria-pressed",x===b)));
+  pick("prOpt").forEach(b=>b.onclick=()=>b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")!=="true"));
+  const on=v=>document.querySelector('#prOpt .tg[data-v="'+v+'"]').getAttribute("aria-pressed")==="true";
+  const open=()=>{ $("prCount").textContent=`별표한 문제 ${starKeys().length}개를 과목 → 회차 순으로 정리해요.`; $("prShade").hidden=false; $("prSheet").hidden=false; $("prGo").focus(); };
+  const close=()=>{ $("prShade").hidden=true; $("prSheet").hidden=true; $("nPrint").focus(); };
+  $("nPrint").onclick=open; $("prClose").onclick=close; $("prShade").onclick=close;
+  $("prSheet").addEventListener("keydown",e=>{ if(e.key==="Escape"){ e.stopPropagation(); close(); } });
+  function build(){
+    const ks=starKeys(), mode=document.querySelector('#prMode .tg[aria-pressed="true"]').dataset.v, ex=on("ex"), memo=on("memo");
+    const A=$("printArea"); A.textContent="";
+    const d=new Date(), ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
+    const ph=el("div","ph"); ph.append(el("b",null,"PT·PR 별표 문제 모음"), el("span",null,`${ks.length}문항 · ${ds} 출력`)); A.append(ph);
+    const cols=el("div","pcols"+(on("col2")?" c2":"")); A.append(cols);
+    let cur=null; const ans=[];
+    ks.forEach((k,i)=>{ const q=D[KEYIDX.get(k)], r=ST.q[k], [y,ses,n,sub,stem,box,tbl,opts,a]=q;
+      if(cur!==sub){ cur=sub; cols.append(el("div","psub",`${SUBJ[sub][0]} · ${SUBJ[sub][1]}`)); }
+      const w=el("div","pq");
+      w.append(el("div","src",`${YEARS[y]} ${ses}교시 ${n}번 · ${q[11]||SUBJ[sub][0]}`+(r.w?` · 틀린 횟수 ${r.w}`:"")));
+      const st=el("p","st"); st.append(el("i",null,(i+1)+"."), document.createTextNode(stem)); w.append(st);
+      if(box&&box.length) w.append(el("div","bx",box.join("\n")));
+      if(tbl){ const t=document.createElement("table"); tbl.forEach((row,ri)=>{ const tr=document.createElement("tr"); row.forEach(c=>tr.append(el(ri?"td":"th",null,c))); t.append(tr); }); w.append(t); }
+      const ol=document.createElement("ol"); opts.forEach((o,oi)=>{ const li=el("li",mode==="inline"&&oi===a-1?"pa":null,`${CIRC[oi]} ${o}`); ol.append(li); }); w.append(ol);
+      const exTxt=q[9]||"";
+      if(mode==="inline"){ if(ex&&exTxt){ const e=el("div","pex"); e.append(el("b",null,"해설 "),document.createTextNode(exTxt)); w.append(e); } }
+      else ans.push([i+1,a,exTxt]);
+      if(memo&&r.m){ w.append(el("div","pmemo","내 메모 · "+r.m)); }
+      cols.append(w); });
+    if(mode==="end"){ const s=el("div","pans"); s.append(el("h2",null,"정답"));
+      const g=el("div","agrid"); ans.forEach(([n,a])=>g.append(el("span",null,`${n}. ${CIRC[a-1]}`))); s.append(g);
+      if(ex){ const c=el("div","pcols"+(on("col2")?" c2":"")); ans.forEach(([n,a,t])=>{ if(!t) return; const p=el("div","aex"); p.append(el("b",null,`${n}. ${CIRC[a-1]} `),document.createTextNode(t)); c.append(p); }); s.append(c); }
+      A.append(s); }
+    A.append(el("div","pfoot","정답은 국시원 가답안·최종답안 기준, 해설은 AI가 정리한 내용이에요."));
+  }
+  $("prGo").onclick=()=>{ build(); close(); document.body.classList.add("printing"); setTimeout(()=>window.print(),60); };
+  window.addEventListener("afterprint",()=>document.body.classList.remove("printing"));
+  sync();
+})();
 $("qStar").onclick=()=>{ if(!S) return; const r=rec(key(D[S.list[S.i]])); r.s=!r.s; saveST(); setStar($("qStar"),r.s); };
 for(const b of document.querySelectorAll(".tab")) b.onclick=()=>{
   const t=b.dataset.tab; if(t==="home"){show("home"); renderHome()} else if(t==="stats"){show("stats"); renderStats()} else if(t==="dict"){show("dict"); renderDict()} else {show("notes"); renderNotes()}
@@ -2198,4 +2300,5 @@ document.addEventListener("keydown",e=>{
 });
 show("home"); renderHome();
 </script>
+<div id="printArea" aria-hidden="true"></div>
 </body></html>
