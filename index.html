@@ -177,6 +177,25 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwtests .tcard{background:var(--tile)}
 .tgroup{display:flex;flex-direction:column;gap:6px}
 .tgl-l{font-size:12px;color:var(--meta)}
+.lawt{display:flex;flex-direction:column;gap:12px}
+.lawt .chips{margin:2px 0 0}
+.kwdict .lawt .tg[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
+.lawtbl tr,.lawp tr{display:table-row}.lawtbl th,.lawtbl td,.lawp td{display:table-cell;width:auto}
+.lawtbl{width:100%;border-collapse:collapse;font-size:calc(.92rem * var(--rf,1));line-height:1.5;background:var(--paper);border-radius:8px;overflow:hidden}
+.lawtbl th,.lawtbl td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+.lawtbl tr.lg th{background:var(--ink);color:var(--on-ink);font-size:14px;font-weight:600;padding:10px 12px}
+.lawtbl tr.lg th span{font-weight:400;opacity:.7;font-size:12px;margin-left:8px}
+.lawtbl td.lw{white-space:nowrap;width:1%;font-size:12px;color:var(--meta);text-align:right}
+.lawtbl td.lw i{display:block;font-style:normal;font-family:var(--f-num);font-size:11px;opacity:.85}
+.lawtbl tr:last-child td{border-bottom:0}
+.lawp{width:100%;border-collapse:collapse;font-size:calc(.9rem * var(--rf,1));background:var(--paper);border-radius:8px;overflow:hidden}
+.lawp td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;width:25%}
+.lawp td:nth-child(odd){color:var(--meta);font-size:12.5px}
+.lawp td:nth-child(even){font-weight:600}
+.lawp td:nth-child(2){border-right:1px solid var(--line)}
+.lawp tr:last-child td{border-bottom:0}
+.lawh{margin:6px 0 0;font-size:13px;color:var(--meta)}
+
 .kwtests .tg{min-height:34px;padding:5px 12px;font-size:.88rem}
 .selbtn{position:fixed;z-index:60;display:inline-flex;align-items:center;gap:6px;max-width:calc(100vw - 16px);padding:8px 14px;min-height:40px;border:1px solid var(--line);border-radius:9999px;background:var(--paper);color:var(--ink);font:inherit;font-size:.9rem;box-shadow:0 6px 20px rgba(0,0,0,.14);cursor:pointer;animation:fd .2s ease-out}
 .selbtn[hidden]{display:none}
@@ -1449,6 +1468,88 @@ function dictCard(t,open){ const c=testCard(t,open), n=testCount(t);
   if(n){ const b=document.createElement("button"); b.type="button"; b.className="tplay"; b.textContent=`관련 문제 ${n}개 풀기 →`;
     b.onclick=()=>{ if(window.__kwOpenWith) window.__kwOpenWith(t.n); }; c.querySelector(".tfoot").prepend(b); }
   return c; }
+const LAWR=[
+ ["대통령령","= 시행령에 적어 둔 것 (대통령이 직접 하는 일 ✕)",[
+  ["국가시험 등에 필요한 사항(시험 실시는 장관 → 국시원)","의료","50"],
+  ["의료기사(물리치료사)의 구체적인 업무 범위와 한계","기사","53"],
+  ["의료인 면허 후 3년마다 하는 실태·취업상황 신고의 방법","의료","48"],
+  ["65세 이상 건강진단(국가·지방자치단체가 실시)의 방법","노인","50"]]],
+ ["국무총리","소속 기관",[
+  ["장애인정책조정위원회를 둠(장애인 종합정책 수립·조정·평가)","장애","52"]]],
+ ["보건복지부장관","중앙 · 면허 · 지정 · 계획",[
+  ["의료인 3년마다 실태·취업상황 신고를 받음","의료","48"],
+  ["상급종합병원 지정","의료","49"],
+  ["전문병원 지정","의료","53"],
+  ["의료기관 종류별 표준업무 고시","의료","53"],
+  ["외국 의료인 면허자의 국내 교육연구 승인","의료","52"],
+  ["의료기관 개설허가 취소(시장·군수·구청장과 함께)","의료","50"],
+  ["물리치료사 면허증 발급·재발급(재발급 신청서 제출처)","기사","53"],
+  ["물리치료사 3년마다 실태·취업상황 신고를 받음","기사","49·50"],
+  ["품위손상행위 → 6개월 이내 면허자격정지","기사","47"],
+  ["면허 취소 후 1년 이내 재발급 제한","기사","48"],
+  ["보수교육 면제(신규 면허·군 복무·대학원)·유예(6개월 이상 미종사)","기사","48·53"],
+  ["장애인정책종합계획 수립(장애인정책조정위원회 심의를 거침)","장애","48"],
+  ["장애판정위원회를 둠(장애 인정·장애 정도 사정)","장애","48"],
+  ["장애실태조사 3년마다","장애","51"],
+  ["노인 보건·복지 실태조사 3년마다","노인","48"],
+  ["건강보험정책심의위원회를 둠(위원장은 보건복지부차관)","건보","48·53"]]],
+ ["국가시험관리기관의 장","국시원장",[
+  ["물리치료사 국가시험 공고(시험일 90일 전까지)","기사","47·49"],
+  ["출제방법·과목별 배점비율 등 시험 시행에 필요한 사항 결정","기사","52"]]],
+ ["시·도지사","병원급 · 허가",[
+  ["병원급(종합병원·병원·치과병원·한방병원·요양병원) 개설 허가","의료","48·51"],
+  ["의료기관개설위원회를 둠(병원급 개설 허가 심의)","의료","53"]]],
+ ["시장·군수·구청장","의원급 · 신고 · 생활 가까운 일",[
+  ["의원급(의원·치과의원·한의원·조산원) 개설 신고를 받음","의료","49"],
+  ["의료기관 폐업·1개월 이상 휴업 신고를 받음","의료","53"],
+  ["세탁물처리업 휴업·폐업 신고를 받음","의료","52"],
+  ["장애인등록증 발급","장애","50"],
+  ["장애 정도 조정 시 정밀심사 의뢰(→ 국민연금공단)","장애","52"],
+  ["장애인복지시설 설치·운영 신고를 받음(국가·지자체 외)","장애","52"],
+  ["장애인학대 신고의무 위반 과태료 부과(출제 당시)","장애","47"],
+  ["노인의료복지시설 설치 신고를 받음(국가·지자체 외)","노인","48"],
+  ["65세 이상 국·공립병원 건강진단 2년에 1회 이상","노인","52"]]],
+ ["보건소장","기록 보관",[
+  ["폐업·휴업 시 진료기록부 등을 넘겨받음","의료","47"]]],
+ ["국민연금공단","심사",[
+  ["장애 정도 정밀심사(시장·군수·구청장이 의뢰)","장애","52"]]]
+];
+const LAWP=[
+ ["병원급 개설","시·도지사 허가","의원급 개설","시장·군수·구청장 신고"],
+ ["폐업·휴업 신고","시장·군수·구청장","진료기록부 넘김","보건소장"],
+ ["국가시험 실시·면허","보건복지부장관","시험 공고·출제·배점","국시원장"],
+ ["장애인정책조정위원회","국무총리 소속","건강보험정책심의위원회","장관 소속, 위원장 차관"],
+ ["장애인정책조정위원회","국무총리 소속 (대통령 ✕)","장애판정위원회","보건복지부에 둠"],
+ ["실태·취업 신고(3년)","보건복지부장관","실태조사(장애·노인, 3년)","보건복지부장관"]
+];
+
+const LAWN={의료:"의료법",기사:"의료기사법",장애:"장애인복지법",노인:"노인복지법",건보:"국민건강보험법"};
+let LAWF="all";
+function lawTable(rows){ // rows: [[who,sub,[[txt,law,yr]...]]]
+  const t=document.createElement("table"); t.className="lawtbl";
+  rows.forEach(([who,sub,items])=>{ if(!items.length) return;
+    const g=document.createElement("tr"); g.className="lg"; const th=document.createElement("th"); th.colSpan=2; th.textContent=who; const sp=document.createElement("span"); sp.textContent=sub; th.append(sp); g.append(th); t.append(g);
+    items.forEach(([txt,lw,yr])=>{ const tr=document.createElement("tr"); const a=document.createElement("td"); a.textContent=txt; const b=document.createElement("td"); b.className="lw"; b.textContent=LAWN[lw]; const i=document.createElement("i"); i.textContent=yr+"회 기출"; b.append(i); tr.append(a,b); t.append(tr); }); });
+  return t; }
+function lawSection(){
+  const d=document.createElement("details"); d.className="kwdict"; const nm="법규 권한"; if(DOPEN.has(nm)) d.open=true;
+  const s=document.createElement("summary"); const b=document.createElement("b"); b.textContent="의료관계법규 · 누가 하나"; const sp=document.createElement("span"); sp.textContent=`${LAWR.reduce((a,r)=>a+r[2].length,0)}개 · 권한자별 표`; s.append(b,sp); d.append(s);
+  const body=document.createElement("div"); body.className="kwdict-b lawt"; d.append(body);
+  const draw=()=>{ body.textContent="";
+    const C=document.createElement("div"); C.className="chips";
+    [["all","전체"],...Object.entries(LAWN)].forEach(([k,lab])=>{ const n=k==="all"?LAWR.reduce((a,r)=>a+r[2].length,0):LAWR.reduce((a,r)=>a+r[2].filter(x=>x[1]===k).length,0); if(!n) return;
+      const bt=document.createElement("button"); bt.type="button"; bt.className="tg"; bt.setAttribute("aria-pressed",LAWF===k); bt.append(document.createTextNode(lab)); const c=document.createElement("span"); c.className="n"; c.textContent=n; bt.append(c);
+      bt.onclick=()=>{ LAWF=k; draw(); }; C.append(bt); });
+    body.append(C);
+    body.append(lawTable(LAWR.map(([w,s2,it])=>[w,s2,it.filter(x=>LAWF==="all"||x[1]===LAWF)])));
+    if(LAWF==="all"){ const hh=document.createElement("p"); hh.className="lawh"; hh.textContent="헷갈리는 짝"; body.append(hh);
+      const t=document.createElement("table"); t.className="lawp"; LAWP.forEach(r=>{ const tr=document.createElement("tr"); r.forEach(c=>{ const td=document.createElement("td"); td.textContent=c; tr.append(td); }); t.append(tr); }); body.append(t); }
+    const nt=document.createElement("span"); nt.className="tnote"; nt.textContent="PT·PR 기출 해설을 바탕으로 정리했어요. 법이 개정될 수 있으니 최신 법령과 함께 확인하세요."; body.append(nt); };
+  let built=false;
+  d.addEventListener("toggle",()=>{ if(d.open){ DOPEN.add(nm); if(!built){ built=true; draw(); } } else DOPEN.delete(nm); });
+  if(d.open){ built=true; draw(); }
+  return d; }
+function lawSearch(f){ const rows=LAWR.map(([w,s2,it])=>[w,s2,it.filter(x=>TNorm(w+" "+s2+" "+x[0]+" "+LAWN[x[1]]).includes(f))]).filter(r=>r[2].length); return rows; }
 function renderDict(){
   const L=$("dList"), raw=($("dFind").value||"").trim(), f=TNorm(raw); L.textContent="";
   const total=DICTS.reduce((a,d)=>a+d[1].length,0);
@@ -1456,10 +1557,12 @@ function renderDict(){
     DICTS.forEach(([name,list])=>{ const hs=list.filter(t=>TNorm([t.n,...t.a,t.ar,t.p,t.s,t.m,t.y,t.o,t.i,t.v].join(" ")).includes(f)); if(!hs.length) return; hits+=hs.length;
       const h=document.createElement("h2"); h.className="tlist-h"; h.textContent=`${name} · ${hs.length}`; L.append(h);
       hs.forEach(t=>L.append(dictCard(t,hs.length<=3))); });
+    { const lr=lawSearch(f); if(lr.length){ const n=lr.reduce((x,r)=>x+r[2].length,0); hits+=n; const hh=document.createElement("h2"); hh.className="tlist-h"; hh.textContent=`의료관계법규 · ${n}`; L.append(hh, lawTable(lr)); } }
     $("dCount").textContent=`"${raw}" ${hits}개`;
     if(!hits){ const p=document.createElement("p"); p.className="count"; p.textContent="찾는 항목이 없어요."; L.append(p); }
     return; }
   $("dCount").textContent=`사전 ${DICTS.length}개 · ${total}개 항목 · 눌러서 펼치고, 관련 문제는 바로 풀 수 있어요`;
+  L.append(lawSection());
   DICTS.forEach(([name,list,unit])=>{
     const d=document.createElement("details"); d.className="kwdict"; if(DOPEN.has(name)) d.open=true;
     const s=document.createElement("summary"); const b=document.createElement("b"); b.textContent=name+" 사전"; const sp=document.createElement("span"); sp.textContent=`${list.length}개 · ${unit}`; s.append(b,sp); d.append(s);
