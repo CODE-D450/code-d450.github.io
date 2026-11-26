@@ -233,6 +233,20 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .lawtbl td.lw{white-space:nowrap;width:1%;font-size:12px;color:var(--meta);text-align:right}
 .lawtbl td.lw i{display:block;font-style:normal;font-family:var(--f-num);font-size:11px;opacity:.85}
 .lawtbl tr:last-child td{border-bottom:0}
+.hormp tr{display:table-row}.hormp td{display:table-cell}
+.hormp{width:100%;border-collapse:collapse;table-layout:fixed;background:var(--paper);border-radius:8px;overflow:hidden;font-size:calc(.9rem * var(--rf,1))}
+.hormp td{width:50%;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;word-break:keep-all;line-height:1.45}
+.hormp td:first-child{border-right:1px solid var(--line)}
+.hormp tr:last-child td{border-bottom:0}
+.hormp td span{display:block;font-size:12.5px;color:var(--meta)}
+.hormp td b{display:block;font-weight:600}
+.hormtbl tr.hh th{font-size:11.5px;font-weight:500;color:var(--meta);background:transparent;padding:6px 12px;border-bottom:1px solid var(--line)}
+.hormtbl td.hn{font-weight:600;width:28%}
+.hormtbl td.hn i{display:block;font-style:normal;font-weight:400;font-family:var(--f-num);font-size:11px;color:var(--meta);margin-top:2px}
+.hormtbl td.ht{width:22%;color:var(--meta);font-size:.92em}
+.hormtbl td small{display:block;font-size:12px;color:var(--meta);margin-top:3px}
+@media (max-width:520px){.hormtbl th,.hormtbl td{padding:8px 7px}.hormtbl{font-size:calc(.85rem * var(--rf,1))}}
+
 .lawp{width:100%;border-collapse:collapse;font-size:calc(.9rem * var(--rf,1));background:var(--paper);border-radius:8px;overflow:hidden}
 .lawp td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;width:25%}
 .lawp td:nth-child(odd){color:var(--meta);font-size:12.5px}
@@ -1622,6 +1636,90 @@ function lawSection(){
   if(d.open){ built=true; draw(); }
   return d; }
 function lawSearch(f){ const rows=LAWR.map(([w,s2,it])=>[w,s2,it.filter(x=>TNorm(w+" "+s2+" "+x[0]+" "+LAWN[x[1]]).includes(f))]).filter(r=>r[2].length); return rows; }
+const HORM=[
+ ["시상하부","사이뇌 · 내분비 통합 중추",[
+  ["방출·억제호르몬","뇌하수체앞엽","앞엽 호르몬 분비를 켜고 끔 (TRH·CRH·GnRH·GHRH / 소마토스타틴·도파민은 억제)","ADH·옥시토신도 여기서 만들어 뒤엽으로 보냄","47·53"]]],
+ ["뇌하수체앞엽","선하수체 · 직접 만들어 분비",[
+  ["성장호르몬 (GH)","간·뼈·근육","뼈 길이 성장, 단백질 합성↑, 지방 분해, 혈당↑ (간에서 IGF-1 생성)","과다: 거인증(소아)·말단비대증(성인) / 결핍: 소인증","51"],
+  ["갑상샘자극호르몬 (TSH)","갑상샘","T₃·T₄ 합성·분비 촉진","",""],
+  ["부신겉질자극호르몬 (ACTH)","부신겉질","코티솔 분비 촉진","",""],
+  ["난포자극호르몬 (FSH)","난소·고환","난포 성숙·에스트로젠 분비, 정자 형성","",""],
+  ["황체형성호르몬 (LH)","난소·고환","배란·황체 형성, 고환 사이질세포의 테스토스테론 분비","",""],
+  ["프로락틴 (PRL)","젖샘","젖 생산 (만들기)","",""]]],
+ ["뇌하수체뒤엽","신경하수체 · 시상하부가 만든 것을 저장·분비",[
+  ["항이뇨호르몬 (ADH, 바소프레신)","콩팥 집합관","물 재흡수↑ → 소변량↓, 고농도에서 혈관 수축 → 혈압↑","결핍: 요붕증","48·52"],
+  ["옥시토신","자궁·젖샘","분만 시 자궁 수축, 젖 사출 (내보내기)","",""]]],
+ ["송과샘","",[
+  ["멜라토닌","시상하부 (시교차위핵)","일주기 리듬·수면 조절, 어두울 때 분비↑","",""]]],
+ ["갑상샘","",[
+  ["티록신 (T₄)·삼아이오딘티로닌 (T₃)","거의 모든 세포","기초대사율·열 생산↑, 성장·신경 발달","과다: 그레이브스병(안구돌출) / 결핍: 크레틴병(소아)·점액부종(성인)",""],
+  ["칼시토닌","뼈 (파골세포 억제)·콩팥","혈중 Ca²⁺↓","소포곁세포(C세포)에서 분비","51"]]],
+ ["부갑상샘","",[
+  ["부갑상샘호르몬 (PTH)","뼈·콩팥","뼈 흡수(파골세포)↑, 콩팥 Ca²⁺ 재흡수↑·인 배설↑, 비타민 D 활성화 → 혈중 Ca²⁺↑","결핍: 저칼슘혈증 → 테타니",""]]],
+ ["가슴샘","복장뼈 뒤 · 사춘기 이후 퇴화",[
+  ["티모신","T 림프구","T 세포 분화·성숙","","47"]]],
+ ["부신겉질","바깥부터 토리층 → 다발층 → 그물층 = 염 · 당 · 성",[
+  ["알도스테론 (무기질코르티코이드)","콩팥 먼쪽곱슬세관·집합관","Na⁺ 재흡수·K⁺ 배설 → 수분 보유, 혈압↑ (레닌-안지오텐신이 조절)","과다: 원발알도스테론증(콘증후군)","49"],
+  ["코티솔 (당질코르티코이드)","간·근육·지방 등 전신","당신생 → 혈당↑, 항염증·면역 억제, 스트레스 반응","과다: 쿠싱증후군 / 결핍: 애디슨병",""],
+  ["안드로젠","생식기·피부 등","2차 성징 일부 (여성 겨드랑·음모)","",""]]],
+ ["부신속질","교감신경 자극으로 분비",[
+  ["에피네프린·노르에피네프린","심장·혈관·간·기관지","심박수·혈압↑, 혈당↑, 기관지 확장 (투쟁-도피 반응)","과다: 갈색세포종","53"]]],
+ ["이자 랑게르한스섬","",[
+  ["글루카곤 (알파세포)","간","글리코젠 분해·당신생 → 혈당↑","","50"],
+  ["인슐린 (베타세포)","간·근육·지방","포도당 흡수·글리코젠 합성 → 혈당↓","결핍·저항: 당뇨병","50"],
+  ["소마토스타틴 (델타세포)","이자섬 (알파·베타세포)","인슐린·글루카곤 분비 억제","","50"]]],
+ ["생식샘","",[
+  ["에스트로젠 (난소 난포)","자궁·젖샘·뼈","여성 2차 성징, 자궁내막 증식, 뼈 보호","폐경 후 감소 → 골다공증",""],
+  ["프로게스테론 (황체)","자궁","자궁내막 유지 (임신 유지), 기초체온↑","",""],
+  ["테스토스테론 (고환 사이질세포)","생식기·근육·뼈","남성 2차 성징, 근육 단백질 합성↑, 정자 형성","",""]]],
+ ["그 밖의 기관","콩팥 · 심장 · 위장관",[
+  ["레닌 (콩팥 토리옆세포)","혈장 안지오텐시노젠","안지오텐신 Ⅱ 생성 → 혈관 수축·알도스테론↑ → 혈압↑","혈압·혈류 감소 시 분비",""],
+  ["에리트로포이에틴 (콩팥)","적색골수","적혈구 생성↑","저산소 시 분비",""],
+  ["심방나트륨이뇨펩티드 (ANP, 심방)","콩팥","Na⁺·물 배설↑ → 혈압↓","",""],
+  ["가스트린 (위 G세포)","위 벽세포","위산 분비↑, 위 운동↑","","49"],
+  ["세크레틴 (십이지장)","이자","중탄산염(HCO₃⁻) 분비 → 산 중화","",""],
+  ["콜레시스토키닌 (CCK, 십이지장)","쓸개·이자","쓸개 수축, 이자 소화효소 분비","",""]]]
+];
+const HORMP=[
+ ["앞엽","직접 만들어 분비","뒤엽","시상하부가 만든 것 저장·분비"],
+ ["칼시토닌","갑상샘 · Ca²⁺↓","PTH","부갑상샘 · Ca²⁺↑"],
+ ["글루카곤","알파세포 · 혈당↑","인슐린","베타세포 · 혈당↓"],
+ ["부신겉질","알도스테론 코티솔 안드로젠","부신속질","에피네프린 노르에피네프린"],
+ ["프로락틴","앞엽 · 젖 생산","옥시토신","뒤엽 · 젖 사출"],
+ ["ADH 결핍","요붕증","인슐린 결핍","당뇨병"],
+ ["코티솔 과다","쿠싱증후군","부신겉질 결핍","애디슨병"],
+ ["갑상샘 과다","그레이브스병","갑상샘 결핍","크레틴병(소아) 점액부종(성인)"]
+];
+let HORMF="all";
+function hormTable(rows){ // rows: [[gland,sub,[[h,tg,act,note,yr]...]]]
+  const t=document.createElement("table"); t.className="lawtbl hormtbl";
+  const hd=document.createElement("tr"); hd.className="hh"; ["호르몬","1차 표적","주요 작용"].forEach(x=>{ const th=document.createElement("th"); th.textContent=x; hd.append(th); }); t.append(hd);
+  rows.forEach(([g,sub,items])=>{ if(!items.length) return;
+    const gr=document.createElement("tr"); gr.className="lg"; const th=document.createElement("th"); th.colSpan=3; th.textContent=g; if(sub){ const sp=document.createElement("span"); sp.textContent=sub; th.append(sp); } gr.append(th); t.append(gr);
+    items.forEach(([h,tg,act,note,yr])=>{ const tr=document.createElement("tr");
+      const a=document.createElement("td"); a.className="hn"; a.textContent=h; if(yr){ const i=document.createElement("i"); i.textContent=yr+"회 기출"; a.append(i); }
+      const b=document.createElement("td"); b.className="ht"; b.textContent=tg;
+      const c=document.createElement("td"); c.textContent=act; if(note){ const s=document.createElement("small"); s.textContent=note; c.append(s); }
+      tr.append(a,b,c); t.append(tr); }); });
+  return t; }
+function hormCount(f){ return HORM.reduce((a,r)=>a+r[2].filter(x=>f==="all"||x[4]).length,0); }
+function hormSection(){
+  const d=document.createElement("details"); d.className="kwdict"; const nm="호르몬 표"; if(DOPEN.has(nm)) d.open=true;
+  const s=document.createElement("summary"); const b=document.createElement("b"); b.textContent="내분비 · 샘과 호르몬"; const sp=document.createElement("span"); sp.textContent=`${hormCount("all")}개 · 샘별 표적·작용`; s.append(b,sp); d.append(s);
+  const body=document.createElement("div"); body.className="kwdict-b lawt"; d.append(body);
+  const draw=()=>{ body.textContent="";
+    const C=document.createElement("div"); C.className="chips";
+    [["all","전체"],["yr","기출 나온 것"]].forEach(([k,lab])=>{ const bt=document.createElement("button"); bt.type="button"; bt.className="tg"; bt.setAttribute("aria-pressed",HORMF===k); bt.append(document.createTextNode(lab)); const c=document.createElement("span"); c.className="n"; c.textContent=hormCount(k); bt.append(c); bt.onclick=()=>{ HORMF=k; draw(); }; C.append(bt); });
+    body.append(C);
+    body.append(hormTable(HORM.map(([g,s2,it])=>[g,s2,it.filter(x=>HORMF==="all"||x[4])])));
+    if(HORMF==="all"){ const hh=document.createElement("p"); hh.className="lawh"; hh.textContent="헷갈리는 짝"; body.append(hh);
+      const t=document.createElement("table"); t.className="hormp"; HORMP.forEach(r=>{ const tr=document.createElement("tr"); [0,2].forEach(k=>{ const td=document.createElement("td"); const l=document.createElement("span"); l.textContent=r[k]; const v=document.createElement("b"); v.textContent=r[k+1]; td.append(l,v); tr.append(td); }); t.append(tr); }); body.append(t); }
+    const nt=document.createElement("span"); nt.className="tnote"; nt.textContent="'○회 기출'은 PT·PR 해부생리학 문제에서 정답이나 핵심 해설로 나온 회차예요."; body.append(nt); };
+  let built=false;
+  d.addEventListener("toggle",()=>{ if(d.open){ DOPEN.add(nm); if(!built){ built=true; draw(); } } else DOPEN.delete(nm); });
+  if(d.open){ built=true; draw(); }
+  return d; }
+function hormSearch(f){ return HORM.map(([g,s2,it])=>[g,s2,it.filter(x=>TNorm(g+" "+s2+" "+x.join(" ")).includes(f))]).filter(r=>r[2].length); }
 function renderDict(){
   const L=$("dList"), raw=($("dFind").value||"").trim(), f=TNorm(raw); L.textContent="";
   const total=DICTS.reduce((a,d)=>a+d[1].length,0);
@@ -1630,11 +1728,13 @@ function renderDict(){
       const h=document.createElement("h2"); h.className="tlist-h"; h.textContent=`${name} · ${hs.length}`; L.append(h);
       hs.forEach(t=>L.append(dictCard(t,hs.length<=3))); });
     { const lr=lawSearch(f); if(lr.length){ const n=lr.reduce((x,r)=>x+r[2].length,0); hits+=n; const hh=document.createElement("h2"); hh.className="tlist-h"; hh.textContent=`의료관계법규 · ${n}`; L.append(hh, lawTable(lr)); } }
+    { const hr=hormSearch(f); if(hr.length){ const n=hr.reduce((x,r)=>x+r[2].length,0); hits+=n; const hh=document.createElement("h2"); hh.className="tlist-h"; hh.textContent=`내분비 · 샘과 호르몬 · ${n}`; L.append(hh, hormTable(hr)); } }
     $("dCount").textContent=`"${raw}" ${hits}개`;
     if(!hits){ const p=document.createElement("p"); p.className="count"; p.textContent="찾는 항목이 없어요."; L.append(p); }
     return; }
   $("dCount").textContent=`사전 ${DICTS.length}개 · ${total}개 항목 · 눌러서 펼치고, 관련 문제는 바로 풀 수 있어요`;
   L.append(lawSection());
+  L.append(hormSection());
   DICTS.forEach(([name,list,unit])=>{
     const d=document.createElement("details"); d.className="kwdict"; if(DOPEN.has(name)) d.open=true;
     const s=document.createElement("summary"); const b=document.createElement("b"); b.textContent=name+" 사전"; const sp=document.createElement("span"); sp.textContent=`${list.length}개 · ${unit}`; s.append(b,sp); d.append(s);
