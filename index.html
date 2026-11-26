@@ -177,6 +177,16 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwtests .tcard{background:var(--tile)}
 .tgroup{display:flex;flex-direction:column;gap:6px}
 .tgl-l{font-size:12px;color:var(--meta)}
+.resume{background:var(--tile);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.resume .rs-t{display:flex;flex-direction:column;gap:4px}
+.resume .rs-t b{font-size:1.05rem;font-weight:600}
+.resume .rs-t span{font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums}
+.resume .rs-bar{height:4px;border-radius:9999px;background:var(--line);overflow:hidden}
+.resume .rs-bar i{display:block;height:100%;background:var(--ink);border-radius:9999px}
+.resume .actions > .btn{flex:1 1 auto}
+.resume .btn.ghost{background:var(--paper)}
+.resume .rs-del{align-self:flex-start;font-size:13px;color:var(--meta);background:none;border:0;padding:2px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+
 .prbody .prl{margin:16px 0 8px;font-size:13px;color:var(--meta)}
 .prbody .prnote{margin:18px 0 0;font-size:13px;color:var(--meta)}
 #printArea{display:none}
@@ -687,6 +697,12 @@ window.__ptqText=(function(){
     <div>
       <h1 class="brand">PT<span class="brand-dot">·</span>PR</h1>
       <p class="brand-sub" lang="en"><span class="bs-pt">Physical Therapy</span><span class="bs-dot"> · </span><span class="bs-pr">Personal Record</span></p>
+    </div>
+    <div class="resume" id="resume" hidden>
+      <div class="rs-t"><b>풀던 문제가 있어요</b><span id="rsInfo"></span></div>
+      <div class="rs-bar"><i id="rsBar"></i></div>
+      <div class="actions"><button type="button" class="btn" id="rsGo">이어 풀기</button><button type="button" class="btn ghost" id="rsEnd">여기까지 결과 보기</button></div>
+      <button type="button" class="lnk rs-del" id="rsDel">기록 지우고 새로 시작</button>
     </div>
     <div class="panel">
       <h2>출제 범위</h2>
@@ -1762,6 +1778,7 @@ function renderHome(){
   $("startBtn").disabled = p===0;
   $("wrongBtn").textContent = `누적 오답 다시 풀기 (${wrong.size})`;
   $("wrongBtn").disabled = wrong.size===0;
+  if(typeof renderResume==="function") renderResume();
 }
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
@@ -1824,6 +1841,7 @@ function renderQ(){
   { const lbl = S.i===S.list.length-1 ? "결과 보기" : "다음 문제"; $("nextBtn").setAttribute("aria-label",lbl); $("nextBtn").title=lbl; }
   $("prevBtn").disabled = S.i===0;
   if(h) paintAnswer(h.oi,true);
+  saveSess();
 }
 function pick(oi){
   if(S.done) return; S.done=true;
@@ -1837,6 +1855,7 @@ function pick(oi){
   saveST();
   S.hist[S.i]={oi, order:S.order.slice(), t:(Date.now()-S.t0)/1000};
   paintAnswer(oi,false);
+  saveSess();
 }
 /* 답을 고른 화면을 그린다. review=true면 이전 문제로 돌아와 다시 보는 중이라 기록은 남기지 않는다. */
 function paintAnswer(oi,review){
@@ -1862,6 +1881,7 @@ function paintAnswer(oi,review){
 function prev(){ if(!S||S.i===0) return; S.i--; renderQ(); window.scrollTo(0,0); }
 function next(){ if(!S||!S.done) return; if(S.i<S.list.length-1){S.i++; renderQ(); window.scrollTo(0,0)} else finish(); }
 function finish(){
+  clearSess();
   show("result");
   const a=S.answered, c=S.correct;
   $("rScore").textContent = a? Math.round(c/a*100)+"점" : "–";
@@ -2069,6 +2089,47 @@ for(const b of document.querySelectorAll(".tab")) b.onclick=()=>{
   const t=b.dataset.tab; if(t==="home"){show("home"); renderHome()} else if(t==="stats"){show("stats"); renderStats()} else if(t==="dict"){show("dict"); renderDict()} else {show("notes"); renderNotes()}
 };
 $("subAll").onclick=()=>{ const all=Object.values(SUBORDER).flat(); const on=all.every(x=>selSub.has(x)); all.forEach(x=>on?selSub.delete(x):selSub.add(x)); renderHome(); };
+
+/* ---------- 이어 풀기 ---------- */
+const SESS_KEY="ptq-session-v1";
+function saveSess(){
+  try{
+    if(!S||!S.list||!S.list.length||S.kw){ return; }
+    if(S.answered>=S.list.length && S.done && S.i>=S.list.length-1){ localStorage.removeItem(SESS_KEY); return; }
+    const o={v:1,t:Date.now(),list:S.list.map(i=>key(D[i])),i:S.i,answered:S.answered,correct:S.correct,
+      wrongNow:S.wrongNow.map(i=>key(D[i])),hist:S.hist,shufO:!!S.shufO};
+    localStorage.setItem(SESS_KEY,JSON.stringify(o));
+  }catch(e){}
+}
+function loadSess(){ try{ const o=JSON.parse(localStorage.getItem(SESS_KEY)||"null"); if(!o||!Array.isArray(o.list)) return null;
+  const list=o.list.map(k=>KEYIDX.get(k)); if(list.some(x=>x===undefined)||!list.length) return null; return o; }catch(e){ return null; } }
+function clearSess(){ try{ localStorage.removeItem(SESS_KEY); }catch(e){} }
+function sessToS(o){
+  return {list:o.list.map(k=>KEYIDX.get(k)), i:Math.min(o.i||0,o.list.length-1), answered:o.answered||0, correct:o.correct||0,
+    wrongNow:(o.wrongNow||[]).map(k=>KEYIDX.get(k)).filter(x=>x!==undefined), hist:o.hist||[], done:false, shufO:!!o.shufO};
+}
+function agoText(t){ const m=Math.round((Date.now()-t)/60000); if(m<1) return "방금"; if(m<60) return m+"분 전"; const h=Math.round(m/60); if(h<24) return h+"시간 전"; return Math.round(h/24)+"일 전"; }
+function renderResume(){
+  const o=loadSess(), box=$("resume"); if(!box) return;
+  if(!o || o.answered>=o.list.length){ box.hidden=true; return; }
+  box.hidden=false;
+  const n=o.list.length, a=o.answered;
+  $("rsInfo").textContent=`${n.toLocaleString()}문제 중 ${a.toLocaleString()}문제 풀었어요 · 정답 ${o.correct} · ${agoText(o.t)}`;
+  $("rsBar").style.width=(a/n*100)+"%";
+  $("rsEnd").disabled=a===0;
+}
+function resumeSess(){
+  const o=loadSess(); if(!o) return;
+  S=sessToS(o);
+  // 아직 안 푼 첫 문제로 이동 (현재 위치가 이미 풀린 문제면 다음 미풀이로)
+  if(S.hist[S.i]){ const nx=S.list.findIndex((_,j)=>j>=S.i&&!S.hist[j]); if(nx>=0) S.i=nx; }
+  show("quiz"); renderQ();
+}
+$("rsGo").onclick=resumeSess;
+$("rsEnd").onclick=()=>{ const o=loadSess(); if(!o) return; S=sessToS(o); clearSess(); finish(); };
+$("rsDel").onclick=()=>{ clearSess(); renderResume(); };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") saveSess(); });
+window.addEventListener("pagehide",saveSess);
 $("startBtn").onclick=()=>start(pool(),false,false,true);
 { let dt=0; $("dFind").addEventListener("input",()=>{ clearTimeout(dt); dt=setTimeout(renderDict,150); }); $("dFind").addEventListener("search",renderDict); }
 { let kt=0, kwFrom=null;
