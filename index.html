@@ -293,6 +293,9 @@ label.ck{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:.95rem
 .kwg-empty{margin:0;font-size:.92rem;color:var(--muted)}
 .qhide + .qkw{margin-left:8px}
 .qset.qhide[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
+.qset + .qfull{margin-left:8px}
+.qfull[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
+.qfull[hidden]{display:none!important}
 #qOpts{position:relative}
 #qOpts.veil .opt{pointer-events:none}
 #qOpts.veil .opt > span:last-child{filter:blur(7px);opacity:.55;user-select:none}
@@ -430,6 +433,9 @@ th{font-weight:500;color:var(--muted);border-bottom-color:var(--ink)}
 
 /* floating dock */
 body{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+/* quiz screen: no dock, so no dock spacer; no rubber-band bounce when it fits */
+html.quizzing body{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+html.quizzing,html.quizzing body{overscroll-behavior-y:none}
 .tabbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:10;max-width:420px;margin:0 auto;background:var(--dock);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);border-radius:16px;padding:6px}
 .tabbar .in{display:flex;gap:6px;max-width:none;margin:0}
 .tab{flex:1;font:inherit;font-size:12px;line-height:1;background:none;border:0;border-radius:10px;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px 0;min-height:54px;cursor:pointer;position:relative;transition:background .4s var(--spring),color .4s var(--spring)}
@@ -1898,6 +1904,7 @@ function show(id){
   const tab = (id==="stats"||id==="notes"||id==="dict")?id:"home";
   for(const b of document.querySelectorAll(".tab")) b.setAttribute("aria-current", b.dataset.tab===tab?"page":"false");
   $("tabbar").hidden = id==="quiz";
+  document.documentElement.classList.toggle("quizzing", id==="quiz");
   updBadge(); window.scrollTo(0,0);
 }
 function setStar(btn,on){ btn.setAttribute("aria-pressed",on?"true":"false"); btn.setAttribute("aria-label",on?"별표 해제":"별표"); }
@@ -2416,6 +2423,22 @@ $("startBtn").onclick=()=>start(pool(),false,false,true);
         if(S && !S.done) veilOpts(on); };
       b.addEventListener("click",()=>window.__toggleHide());
       b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" ") e.stopPropagation(); }); } }
+  { const qh=document.querySelector("#quiz .qhead"), R=document.documentElement;
+    const can=!!(R.requestFullscreen||R.webkitRequestFullscreen) && (document.fullscreenEnabled!==false || document.webkitFullscreenEnabled);
+    if(qh && !$("qFull") && can){ const b=document.createElement("button"); b.type="button"; b.className="qset qfull"; b.id="qFull";
+      b.title="전체화면 (F)"; b.setAttribute("aria-keyshortcuts","F");
+      const IN='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+            OUT='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+      const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+      const sync=()=>{ const on=isFull(); b.innerHTML=on?OUT:IN; b.setAttribute("aria-pressed",on?"true":"false"); b.setAttribute("aria-label",on?"전체화면 끄기 (F)":"전체화면 (F)"); b.title=on?"전체화면 끄기 (F)":"전체화면 (F)"; };
+      sync(); qh.append(b);
+      window.__toggleFull=()=>{ try{
+        if(isFull()){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
+        else { const r=(R.requestFullscreen||R.webkitRequestFullscreen).call(R); if(r&&r.catch) r.catch(()=>{}); }
+      }catch(e){} };
+      b.addEventListener("click",()=>window.__toggleFull());
+      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" ") e.stopPropagation(); });
+      document.addEventListener("fullscreenchange",sync); document.addEventListener("webkitfullscreenchange",sync); } }
   const SHR='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10h-6V4M4 14h6v6M14 10l7-7M10 14l-7 7"/></svg>', EXPI=$("kwBig").innerHTML;
   $("kwBig").addEventListener("click",()=>{ const on=!$("kwSheet").classList.contains("big"); $("kwSheet").classList.toggle("big",on);
     $("kwBig").innerHTML=on?SHR:EXPI; $("kwBig").setAttribute("aria-pressed",String(on)); const l=on?"작게 보기":"크게 보기"; $("kwBig").setAttribute("aria-label",l); $("kwBig").title=l; });
@@ -2455,6 +2478,7 @@ $("retryBtn").onclick=()=>{ const l=[...S.wrongNow]; S=null; const lim=$("limit"
 $("homeBtn").onclick=()=>{show("home"); renderHome()};
 document.addEventListener("keydown",e=>{
   if($("quiz").hidden||e.altKey||e.ctrlKey||e.metaKey||!$("kwSheet").hidden) return;
+  if(e.code==="KeyF" && !e.shiftKey && !/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||"") && window.__toggleFull){ e.preventDefault(); window.__toggleFull(); return; }
   if(e.code==="KeyH" && !e.shiftKey && !/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||"") && window.__toggleHide){ e.preventDefault(); window.__toggleHide(); return; }
   if(isVeiled() && (e.key===" "||e.key==="Enter"||/^[1-5]$/.test(e.key))){ const ae=document.activeElement; if(ae && ae.tagName==="BUTTON" && !ae.classList.contains("oveil") && ae!==document.body && (e.key===" "||e.key==="Enter")) return; e.preventDefault(); revealOpts(); return; }
   if(/^[1-5]$/.test(e.key) && !S.done){ const b=$("qOpts").children[+e.key-1]; if(b) b.click(); e.preventDefault(); }
